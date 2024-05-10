@@ -8,7 +8,7 @@ public class Tecnicos
     public int TecnicoId { get; set; }
 
     [Required(ErrorMessage = " Este campo debe ser llenado con los datos requeridos")]
-    [RegularExpression(@"[a-zA-ZñÑ\s]")]
+    [RegularExpression(@"[a-zA-ZñÑ\s]+$", ErrorMessage = "Este campo no debe contener caracteres especiales")]
     public string? Nombres { get; set; }
 
     [Required(ErrorMessage = "Este campo debe ser llenado con los datos requeridos")]
