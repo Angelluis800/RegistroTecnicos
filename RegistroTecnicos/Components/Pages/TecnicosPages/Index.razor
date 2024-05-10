@@ -3,6 +3,45 @@
 @inject TecnicoService tecnicoservices
 @inject NavigationManager navigation
 
+<PageTitle>T&eacute;cnicos Index</PageTitle>
+
+<div class="container">
+    <div class="card shadow-lg">
+        @*Header*@
+        <div class="card-header">
+            <h1>T&eacute;cnicos</h1>
+            <button class="btn btn-outline-info" type="button" @onclick="Crear">Crear</button>
+        </div>
+        @*Body*@
+        <div class="card-body">
+            <table class="table-dark">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Sueldo</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach(var t in ListaTecnicos)
+                    {
+                        <tr>
+                            <td>@t.TecnicoId</td>
+                            <td>@t.Nombres</td>
+                            <td>@t.SueldoHora</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @*Footer*@
+        <div class="card-footer">
+            <p>Total de T&eacute;cnicos Ingresados: @ListaTecnicos.Count()</p>
+        </div>
+    </div>
+</div>
+
 
 
 
