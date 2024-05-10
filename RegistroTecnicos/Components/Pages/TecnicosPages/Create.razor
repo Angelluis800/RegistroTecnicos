@@ -1,0 +1,46 @@
+﻿@page "/Tecnico/Create"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoservices
+@inject NavigationManager navigation
+
+@code {
+
+	public Tecnicos? Tecnico { get; set; } = new Tecnicos();
+	public string Mensaje = "";
+
+	public async Task Crear()
+	{
+		if (!await Validar())
+		{
+			var nuevo = await tecnicoservices.Guardar(Tecnico);
+			if (nuevo)
+			{
+				Mensaje = $"El técnico {Tecnico.Nombres} ha sido creado correctamente";
+				await Task.Delay(1500);
+				Volver();
+			}
+			else
+			{
+				Mensaje = "El técnico no se ha podido crear correctamente";
+			}
+		}
+		else
+		{
+			Mensaje = "Ya existe un técnico con este nombre";
+		}
+	}
+
+	public async Task<bool> Validar()
+	{
+		var existe = await tecnicoservices.BuscarNombre(Tecnico.Nombres);
+
+		if (existe is not null)
+			return true;
+		else
+			return false;
+	}
+
+	public void Volver() => navigation.NavigateTo("/Students");
+
+
+}
