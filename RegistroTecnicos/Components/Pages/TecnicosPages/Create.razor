@@ -1,4 +1,4 @@
-﻿@page "/Tecnico/Create"
+﻿@page "/Tecnico/Crear"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoservices
 @inject NavigationManager navigation
@@ -9,26 +9,34 @@
     <DataAnnotationsValidator />
     <div class="container">
         <div class="card shadow-lg">
-			@*Header*@
+            @*Header*@
             <div class="card-header">
                 <h1>Crear T&eacute;cnico</h1>
             </div>
-			@*Body*@
+            @*Body*@
             <div class="card-body">
+                <div class="col-1">
                 @*Id*@
                 <label class="form-label" for="Id">Id</label>
-                <InputNumber id="Id" class="form-control" @bind-Value="Tecnico.TecnicoId"></InputNumber>
-                @*Nombre*@
-                <label class="form-label" for="Nombres">Nombre</label>
-                <InputText id="Nombres" class="form-control" @bind-Value="Tecnico.Nombres"></InputText>
-                <ValidationMessage For="@(()=>Tecnico.Nombres)"></ValidationMessage>
-                @*SueldoHora*@
-                <label class="form-label" for="SueldoHora">SueldoHora</label>
-                <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
-                <ValidationMessage For="@(()=>Tecnico.SueldoHora)"></ValidationMessage>
+                <InputNumber id="Id" class="form-control" readonly @bind-Value="Tecnico.TecnicoId"></InputNumber>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        @*Nombre*@
+                        <label class="form-label" for="Nombres">Nombre</label>
+                        <InputText id="Nombres" class="form-control" @bind-Value="Tecnico.Nombres" placeholder="Ej: Jose Pichardo"></InputText>
+                        <ValidationMessage For="@(()=>Tecnico.Nombres)"></ValidationMessage>
+                    </div>
+                    <div class="col-3">
+                        @*SueldoHora*@
+                        <label class="form-label" for="SueldoHora">SueldoHora</label>
+                        <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
+                        <ValidationMessage For="@(()=>Tecnico.SueldoHora)"></ValidationMessage>
+                    </div>
+                </div>
 
             </div>
-			@*Footer*@
+            @*Footer*@
             <div class="card-footer">
                 <button class="btn btn-outline-success" type="submit"> Crear </button>
                 <button class="btn btn-outline-secondary" type="button" @onclick="Volver">Volver</button>
@@ -40,42 +48,42 @@
 
 @code {
 
-	public Tecnicos? Tecnico { get; set; } = new Tecnicos();
-	public string Mensaje = "";
+    public Tecnicos? Tecnico { get; set; } = new Tecnicos();
+    public string Mensaje = "";
 
-	public async Task Crear()
-	{
-		if (!await Validar())
-		{
-			var nuevo = await tecnicoservices.Guardar(Tecnico);
-			if (nuevo)
-			{
-				Mensaje = $"El técnico {Tecnico.Nombres} ha sido creado correctamente";
-				await Task.Delay(1500);
-				Volver();
-			}
-			else
-			{
-				Mensaje = "El técnico no se ha podido crear correctamente";
-			}
-		}
-		else
-		{
-			Mensaje = "Ya existe un técnico con este nombre";
-		}
-	}
+    public async Task Crear()
+    {
+        if (!await Validar())
+        {
+            var nuevo = await tecnicoservices.Guardar(Tecnico);
+            if (nuevo)
+            {
+                Mensaje = $"El técnico {Tecnico.Nombres} ha sido creado correctamente";
+                await Task.Delay(1500);
+                Volver();
+            }
+            else
+            {
+                Mensaje = "El técnico no se ha podido crear correctamente";
+            }
+        }
+        else
+        {
+            Mensaje = "Ya existe un técnico con este nombre";
+        }
+    }
 
-	public async Task<bool> Validar()
-	{
-		var existe = await tecnicoservices.BuscarNombre(Tecnico.Nombres);
+    public async Task<bool> Validar()
+    {
+        var existe = await tecnicoservices.BuscarNombre(Tecnico.Nombres);
 
-		if (existe is not null)
-			return true;
-		else
-			return false;
-	}
+        if (existe is not null)
+            return true;
+        else
+            return false;
+    }
 
-	public void Volver() => navigation.NavigateTo("/Tecnico/Index");
+    public void Volver() => navigation.NavigateTo("/Tecnico/Index");
 
 
 }

@@ -24,12 +24,12 @@
                 </thead>
 
                 <tbody>
-                    @foreach(var t in ListaTecnicos)
+                    @foreach (var t in ListaTecnicos)
                     {
                         <tr>
                             <td>@t.TecnicoId</td>
                             <td>@t.Nombres</td>
-                            <td>@t.SueldoHora</td>
+                            <td>@t.SueldoHora.ToString("N2")</td>
                         </tr>
                     }
                 </tbody>
@@ -37,7 +37,7 @@
         </div>
         @*Footer*@
         <div class="card-footer">
-            <p>Total de T&eacute;cnicos Ingresados: @ListaTecnicos.Count()</p>
+            <p>Total de T&eacute;cnicos Ingresados: @ListaTecnicos.Count()</p>       
         </div>
     </div>
 </div>
