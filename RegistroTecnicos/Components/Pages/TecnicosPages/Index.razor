@@ -1,0 +1,38 @@
+﻿@page "/Tecnico/Index"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoservices
+@inject NavigationManager navigation
+
+
+
+
+@code {
+    public List<Tecnicos> ListaTecnicos = new List<Tecnicos>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+        ListaTecnicos = await tecnicoservices.Listar(e => e.TecnicoId > 0);
+    }
+
+    public void Crear()
+    {
+        navigation.NavigateTo("/Tecnico/Crear");
+    }
+
+    public void Visualizar(int id)
+    {
+        navigation.NavigateTo($"/Tecnico/Visualizar/tecnicoid={id}");
+    }
+
+    public void Editar(int id)
+    {
+        navigation.NavigateTo($"/Tecnico/Editar/tecnicoid={id}");
+    }
+
+    public void Eliminar(int id)
+    {
+        navigation.NavigateTo($"/Tecnico/Eliminar/tecnicoid={id}");
+    }
+
+}
