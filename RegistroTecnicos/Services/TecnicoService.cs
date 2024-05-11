@@ -28,7 +28,9 @@ public class TecnicoService
     private async Task<bool> Modificar(Tecnicos tecnico)
     {
         _contexto.Tecnicos.Update(tecnico);
-        return await _contexto.SaveChangesAsync() > 0;
+        var modificado = await _contexto.SaveChangesAsync() > 0;
+        _contexto.Entry(tecnico).State = EntityState.Detached; //Limpia y permite la modificacion
+        return modificado;
     }
     private async Task<bool> Existe(int id)
     {
