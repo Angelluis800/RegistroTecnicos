@@ -32,12 +32,14 @@
         </div>
     </div>
 </div>
+@Mensaje
    
 @code {
 
     public Tecnicos? Tecnico { get; set; } = new Tecnicos();
     [Parameter] // Poner esto para que en el page pueda recibirlo como paramétro
     public int idTecnico { get; set; }
+    public string Mensaje = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,6 +51,7 @@
     {
         await tecnicoservices.Eliminar(idTecnico);
         await Task.Delay(1500);
+        Mensaje = "Técnico Eliminado Correctamente";
         Volver();
     }
 
