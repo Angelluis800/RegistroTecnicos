@@ -48,11 +48,14 @@
     </div>
 </EditForm>
 
+@Mensaje
+
 @code {
 
     public Tecnicos? Tecnico { get; set; } = new Tecnicos();
     [Parameter] // Poner esto para que en el page pueda recibirlo como parametro
     public int idTecnico { get; set; }
+    public string Mensaje = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,6 +66,7 @@
     public async Task Editar()
     {
         await tecnicoservices.Guardar(Tecnico);
+        Mensaje = "Se ha Guardado Correctamente";
         await Task.Delay(1500);
         Volver();
     }
