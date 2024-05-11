@@ -33,12 +33,10 @@
     </div>
 </div>
    
-
-
 @code {
 
     public Tecnicos? Tecnico { get; set; } = new Tecnicos();
-    [Parameter] // Poner esto para que en el page pueda recibirlo como parametro
+    [Parameter] // Poner esto para que en el page pueda recibirlo como paramétro
     public int idTecnico { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -55,6 +53,4 @@
     }
 
     public void Volver() => navigation.NavigateTo("/Tecnico/Index");
-
-
 }
