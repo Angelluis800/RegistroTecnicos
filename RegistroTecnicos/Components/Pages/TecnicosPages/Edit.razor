@@ -1,0 +1,73 @@
+﻿@page "/Tecnico/Editar"
+@page "/Tecnico/Editar/tecnicoid={idTecnico:int}"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoservices
+@inject NavigationManager navigation
+
+<PageTitle>Crear T&eacute;cnico</PageTitle>
+
+<EditForm Model="Tecnico" OnValidSubmit="Editar">
+    <DataAnnotationsValidator />
+    <div class="container">
+        <div class="card shadow-lg">
+            @*Header*@
+            <div class="card-header text-white text-center">
+                <div class="bg-primary rounded">
+                    <h1>Editar T&eacute;cnico</h1>
+                </div>
+            </div>
+            @*Body*@
+            <div class="card-body">
+                <div class="col-1">
+                    @*Id*@
+                    <label class="form-label" for="Id">Id</label>
+                    <InputNumber id="Id" class="form-control" readonly @bind-Value="Tecnico.TecnicoId"></InputNumber>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        @*Nombre*@
+                        <label class="form-label" for="Nombres">Nombre</label>
+                        <InputText id="Nombres" class="form-control" @bind-Value="Tecnico.Nombres" placeholder="Ej: Jose Pichardo"></InputText>
+                        <ValidationMessage For="@(()=>Tecnico.Nombres)"></ValidationMessage>
+                    </div>
+                    <div class="col-3">
+                        @*SueldoHora*@
+                        <label class="form-label" for="SueldoHora">SueldoHora</label>
+                        <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
+                        <ValidationMessage For="@(()=>Tecnico.SueldoHora)"></ValidationMessage>
+                    </div>
+                </div>
+
+            </div>
+            @*Footer*@
+            <div class="card-footer">
+                <button class="btn btn-outline-success bi bi-pencil-square" type="submit"> Editar </button>
+                <button class="btn btn-outline-secondary" type="button" @onclick="Volver">Volver</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+
+    public Tecnicos? Tecnico { get; set; } = new Tecnicos();
+    [Parameter] // Poner esto para que en el page pueda recibirlo como parametro
+    public int idTecnico { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);      
+        Tecnico = await tecnicoservices.BuscarId(idTecnico);
+    }
+
+    public async Task Editar()
+    {
+        await tecnicoservices.Guardar(Tecnico);
+        await Task.Delay(1500);
+        Volver();
+    }
+
+    public void Volver() => navigation.NavigateTo("/Tecnico/Index");
+
+
+}
