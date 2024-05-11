@@ -1,0 +1,60 @@
+﻿@page "/Tecnico/Eliminar"
+@page "/Tecnico/Eliminar/tecnicoid={idTecnico:int}"
+@rendermode InteractiveServer
+@inject TecnicoService tecnicoservices
+@inject NavigationManager navigation
+
+<PageTitle>Eliminar T&eacute;cnico</PageTitle>
+
+<div class="container">
+    <div class="card shadow-lg">
+        @*Header*@
+        <div class="card-header text-white text-center">
+            <div class="bg-primary rounded">
+                <h1>Eliminar T&eacute;cnico</h1>
+            </div           
+        </div>
+        @*Body*@
+        <div class="card-body">
+             <div class="text-danger">
+                <p>Desea Eliminar el T&eacute;cnico @Tecnico.Nombres?</p>
+            </div>
+            <ul>
+                <li>ID: @Tecnico.TecnicoId</li>              
+                <li>Name: @Tecnico.Nombres</li>
+                <li>Sueldo: @Tecnico.SueldoHora.ToString("N2")</li>               
+            </ul>
+        </div>
+        @*Footer*@
+        <div class="card-footer">
+            <button class="btn btn btn-outline-danger bi bi-trash" type="button" @onclick="Eliminar">Eliminar</button>
+            <button class="btn btn-outline-secondary" type="button" @onclick="Volver">Volver</button>
+        </div>
+    </div>
+</div>
+   
+
+
+@code {
+
+    public Tecnicos? Tecnico { get; set; } = new Tecnicos();
+    [Parameter] // Poner esto para que en el page pueda recibirlo como parametro
+    public int idTecnico { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+        Tecnico = await tecnicoservices.BuscarId(idTecnico);
+    }
+
+    public async Task Eliminar()
+    {
+        await tecnicoservices.Eliminar(idTecnico);
+        await Task.Delay(1500);
+        Volver();
+    }
+
+    public void Volver() => navigation.NavigateTo("/Tecnico/Index");
+
+
+}
