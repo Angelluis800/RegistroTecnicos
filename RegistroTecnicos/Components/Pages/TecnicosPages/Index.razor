@@ -8,18 +8,27 @@
 <div class="container">
     <div class="card shadow-lg">
         @*Header*@
-        <div class="card-header">
-            <h1>T&eacute;cnicos</h1>
-            <button class="btn btn-outline-info" type="button" @onclick="Crear">Crear</button>
+        <div class="card-header text-white text-center">
+            <div class="bg-primary rounded">
+                <!-- Cuadro de otro color -->
+                <h1>Registro de T&eacute;cnicos</h1><!-- El título dentro del cuadro -->
+            </div>
+            <div class="text-start">
+                <button class="btn btn-outline-info" type="button" @onclick="Crear">Crear</button><!-- Botón debajo del cuadro -->
+            </div>
+           
         </div>
         @*Body*@
         <div class="card-body">
             <table class="table table-bordered">
-                <thead>
+                <thead class="bg-primary">
                     <tr>
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Sueldo</th>
+                        <th class="text-center text-white">Id</th>
+                        <th class="text-center text-white">Nombre</th>
+                        <th class="text-center text-white">Sueldo</th>
+                        <th class="text-center text-white">Visualizar</th>
+                        <th class="text-center text-white">Editar</th>
+                        <th class="text-center text-white">Eliminar</th>
                     </tr>
                 </thead>
 
@@ -27,9 +36,12 @@
                     @foreach (var t in ListaTecnicos)
                     {
                         <tr>
-                            <td>@t.TecnicoId</td>
-                            <td>@t.Nombres</td>
-                            <td>@t.SueldoHora.ToString("N2")</td>
+                            <td class="text-center">@t.TecnicoId</td>
+                            <td class="text-center">@t.Nombres</td>
+                            <td class="text-center">@t.SueldoHora.ToString("N2")</td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-dark bi bi-eye" @onclick="()=>Visualizar(t.TecnicoId)"> Visualizar</button></td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(t.TecnicoId)"> Modificar</button></td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(t.TecnicoId)"> Eliminar</button></td>
                         </tr>
                     }
                 </tbody>
