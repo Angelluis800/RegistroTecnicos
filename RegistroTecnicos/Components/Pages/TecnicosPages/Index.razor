@@ -9,15 +9,18 @@
     <div class="card shadow-lg">
         @*Header*@
         <div class="card-header text-white text-center">
-            <div class="bg-primary rounded">
+            <div class="bg-info rounded">
                 <!-- Cuadro de otro color -->
                 <h1>Registro de T&eacute;cnicos</h1><!-- El título dentro del cuadro -->
             </div>           
         </div>
         @*Body*@
         <div class="card-body">
+            <div class="text-start">
+                <button class="btn btn-outline-success bi bi-person-fill-add" type="button" @onclick="Crear">Crear</button>
+            </div>
             <table class="table table-bordered">
-                <thead class="bg-primary text-center text-white">
+                <thead class="bg-info text-center text-white">
                     <tr>
                         <th>Id</th>
                         <th>Nombre</th>
@@ -44,10 +47,7 @@
             </table>
         </div>
         @*Footer*@
-        <div class="card-footer">
-            <div class="text-center">
-                <button class="btn btn-outline-success" type="button" @onclick="Crear">Crear</button>
-            </div>
+        <div class="card-footer">            
             <p>Total de T&eacute;cnicos Ingresados: @ListaTecnicos.Count()</p>                                   
         </div>
     </div>
