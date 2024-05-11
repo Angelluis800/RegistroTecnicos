@@ -35,9 +35,9 @@
                             <td class="text-center">@t.TecnicoId</td>
                             <td class="text-center">@t.Nombres</td>
                             <td class="text-center">@t.SueldoHora.ToString("N2")</td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-dark bi bi-eye" @onclick="()=>Visualizar(t.TecnicoId)"> Visualizar</button></td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(t.TecnicoId)"> Modificar</button></td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(t.TecnicoId)"> Eliminar</button></td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-dark bi bi-eye" @onclick="()=>Visualizar(t.TecnicoId)"></button></td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(t.TecnicoId)"></button></td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(t.TecnicoId)"></button></td>
                         </tr>
                     }
                 </tbody>
@@ -46,7 +46,7 @@
         @*Footer*@
         <div class="card-footer">
             <div class="text-center">
-                <button class="btn btn-outline-info" type="button" @onclick="Crear">Crear</button>
+                <button class="btn btn-outline-success" type="button" @onclick="Crear">Crear</button>
             </div>
             <p>Total de T&eacute;cnicos Ingresados: @ListaTecnicos.Count()</p>                                   
         </div>
