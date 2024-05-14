@@ -50,7 +50,7 @@ public class TecnicoService
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.TecnicoId == id);
     }
-    public async Task<Tecnicos?> BuscarNombre(string nombre)
+    public async Task<Tecnicos?> BuscarNombre(string? nombre)
     {
         return await _contexto.Tecnicos
             .AsNoTracking()
