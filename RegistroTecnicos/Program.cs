@@ -19,6 +19,8 @@ builder.Services.AddScoped<TecnicoService>();
 
 builder.Services.AddScoped<Tecnicos>();
 
+builder.Services.AddBlazorBootstrap(); //Implementando paquete bootstrap
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
