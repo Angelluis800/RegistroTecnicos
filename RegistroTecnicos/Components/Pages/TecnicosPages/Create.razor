@@ -78,12 +78,8 @@
 
     public async Task<bool> Validar()
     {
-        var existe = await tecnicoservices.BuscarNombre(Tecnico.Nombres);
-
-        if (existe is not null)
-            return true;
-        else
-            return false;
+        var existe = await tecnicoservices.Existe(Tecnico.TecnicoId, Tecnico.Nombres);
+        return existe;
     }
 
     public void Volver() => navigation.NavigateTo("/Tecnico/Index");
