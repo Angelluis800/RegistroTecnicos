@@ -34,12 +34,12 @@
                     @foreach (var tecnico in ListaTecnicos)
                     {
                         <tr>
-                            <td class="text-center">@t.TecnicoId</td>
-                            <td class="text-center">@t.Nombres</td>
-                            <td class="text-center">@t.SueldoHora.ToString("N2")</td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-dark bi bi-eye" @onclick="()=>Visualizar(t.TecnicoId)"></button></td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(t.TecnicoId)"></button></td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(t.TecnicoId)"></button></td>
+                            <td class="text-center">@tecnico.TecnicoId</td>
+                            <td class="text-center">@tecnico.Nombres</td>
+                            <td class="text-center">@tecnico.SueldoHora.ToString("N2")</td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-dark bi bi-eye" @onclick="()=>Visualizar(tecnico.TecnicoId)"></button></td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(tecnico.TecnicoId)"></button></td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(tecnico.TecnicoId)"></button></td>
                         </tr>
                     }
                 </tbody>
