@@ -50,12 +50,18 @@ public class TecnicoService
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.TecnicoId == id);
     }
-    public async Task<Tecnicos?> BuscarNombre(string? nombre)
+
+    public async Task<bool> Existe(int id, string? nombre)
     {
         return await _contexto.Tecnicos
-            .AsNoTracking()
-            .FirstOrDefaultAsync(e => e.Nombres == nombre);
+            .AnyAsync(t => t.TecnicoId != id && t.Nombres.Equals(nombre));
     }
+    //public async Task<Tecnicos?> BuscarNombre(string? nombre)
+    //{
+    //    return await _contexto.Tecnicos
+    //        .AsNoTracking()
+    //        .FirstOrDefaultAsync(e => e.Nombres == nombre);
+    //}
     public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
     {
         return await _contexto.Tecnicos
