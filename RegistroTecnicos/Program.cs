@@ -17,8 +17,6 @@ builder.Services.AddDbContext<Contexto>(Options => Options.UseSqlite(ConStr));
 
 builder.Services.AddScoped<TecnicoService>();
 
-builder.Services.AddScoped<Tecnicos>();
-
 builder.Services.AddBlazorBootstrap(); //Implementando paquete bootstrap
 
 var app = builder.Build();
