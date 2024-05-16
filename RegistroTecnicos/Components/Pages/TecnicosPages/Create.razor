@@ -5,7 +5,7 @@
 
 <PageTitle>Crear T&eacute;cnico</PageTitle>
 
-<EditForm Model="Tecnico" OnValidSubmit="Crear">
+<EditForm Model="Tecnico" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
     <div class="container">
         <div class="card shadow-lg">
@@ -54,7 +54,7 @@
     public Tecnicos? Tecnico { get; set; } = new Tecnicos();
     public string Mensaje = "";
 
-    public async Task Crear()
+    public async Task Guardar()
     {
         if (!await Validar())
         {
