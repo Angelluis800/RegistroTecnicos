@@ -1,0 +1,80 @@
+﻿@page "/TipoTecnico/Index"
+@rendermode InteractiveServer
+@inject TipoTecnicoService tipotecnicoservice
+@inject NavigationManager navigation
+
+<PageTitle> Tipo de T&eacute;cnicos Index</PageTitle>
+
+<div class="container">
+    <div class="card shadow-lg">
+        @*Header*@
+        <div class="card-header text-white text-center">
+            <div class="bg-info rounded">
+                <h1>Registro de Tipos de T&eacute;cnicos</h1>
+            </div>
+        </div>
+        @*Body*@
+        <div class="card-body">
+            <div class="text-end">
+                <button class="btn btn-success bi bi-person-fill-add" type="button" @onclick="Crear"> Crear</button>
+            </div>
+            <table class="table table-bordered">
+                <thead class="bg-info text-center text-white">
+                    <tr>
+                        <th>IdTipo</th>
+                        <th>Descripci&oacute;n</th>                        
+                        <th>Visualizar</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var tipo in Tipo)
+                    {
+                        <tr class=" text-center">
+                            <td>@tipo.TipoId</td>
+                            <td>@tipo.Descripcion</td>                          
+                            <td><button type="button" class="btn btn-outline-dark bi bi-eye" @onclick="()=>Visualizar(tipo.TipoId)"></button></td>
+                            <td><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(tipo.TipoId)"></button></td>
+                            <td><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(tipo.TipoId)"></button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @*Footer*@
+        <div class="card-footer">
+            <p>Total de Tipos Ingresados: @Tipo.Count()</p>
+        </div>
+    </div>
+</div>
+
+@code {
+    public List<TipoTecnicos> Tipo = new List<TipoTecnicos>();  
+
+    protected override async Task OnInitializedAsync()
+    {
+        Tipo = await tipotecnicoservice.Listar(e => e.TipoId > 0);       
+    }
+
+    public void Crear()
+    {
+        navigation.NavigateTo("/TipoTecnico/Crear");
+    }
+
+    public void Visualizar(int id)
+    {
+        navigation.NavigateTo($"/TipoTecnico/Visualizar/tecnicoid={id}");
+    }
+
+    public void Editar(int id)
+    {
+        navigation.NavigateTo($"/TipoTecnico/Editar/tecnicoid={id}");
+    }
+
+    public void Eliminar(int id)
+    {
+        navigation.NavigateTo($"/TipoTecnico/Eliminar/tecnicoid={id}");
+    }
+}
