@@ -63,10 +63,30 @@
 
     public async Task Editar()
     {
-        await tecnicoservices.Guardar(Tecnico);
-        Mensaje = "Se ha Guardado Correctamente";
-        await Task.Delay(1500);
-        Volver();
+        if (!await Validar())
+        {
+            var nuevo = await tecnicoservices.Guardar(Tecnico);
+            if (nuevo)
+            {
+                Mensaje = $"El técnico {Tecnico.Nombres} ha sido editado correctamente";
+                await Task.Delay(1500);
+                Volver();
+            }
+            else
+            {
+                Mensaje = "El técnico no se ha podido editar correctamente";
+            }
+        }
+        else
+        {
+            Mensaje = "Ya existe un técnico con este nombre";
+        }
+    }
+
+    public async Task<bool> Validar()
+    {
+        var existe = await tecnicoservices.Existe(Tecnico.TecnicoId, Tecnico.Nombres.ToLower());
+        return existe;
     }
 
     public void Volver() => navigation.NavigateTo("/Tecnico/Index");
