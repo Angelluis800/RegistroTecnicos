@@ -15,9 +15,31 @@
         </div>
         @*Body*@
         <div class="card-body">
-            <div class="text-end">
-                <button class="btn btn-success bi bi-person-fill-add" type="button" @onclick="Crear"> Crear</button>
+            <div class="row mb-3 align-items-end">
+                <div class="col-md-2">
+                    <label for="Filtro" class="form-label">Filtrar por:</label>
+                    <select @bind="filtro" class="form-select">
+                        <option value="id">ID</option>
+                        <option value="descripcion">Nombre</option>                     
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="ValorFiltro" class="form-label">Búsqueda:</label>
+                    <div class="input-group">
+                        <input @bind="valorFiltro" class="form-control" placeholder="Buscar" />
+                        <button @onclick="Buscar" class="btn btn-outline-primary" type="button">
+                            <span class="bi bi-search"></span> Buscar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-outline-info bi bi-clipboard2-fill" type="button" @onclick="OnInitializedAsync"> Todos</button>
+                </div>
+                <div class="col-md-3 text-end">
+                    <button class="btn btn-success bi bi-person-fill-add" type="button" @onclick="Crear"> Crear</button>
+                </div>
             </div>
+           
             <table class="table table-bordered">
                 <thead class="bg-info text-center text-white">
                     <tr>
@@ -47,18 +69,46 @@
         </div>
         @*Footer*@
         <div class="card-footer">            
-            <p>Total de T&eacute;cnicos Ingresados: @ListaTecnicos.Count()</p>                                   
+            <p>Total de T&eacute;cnicos: @ListaTecnicos.Count()</p>                                   
         </div>
     </div>
 </div>
 
 @code {
     public List<Tecnicos> ListaTecnicos = new List<Tecnicos>();
+    private string filtro = "";
+    private string valorFiltro = "";
 
     protected override async Task OnInitializedAsync()
     {        
         ListaTecnicos = await tecnicoservices.Listar(e => e.TecnicoId > 0);
+        filtro = "";
+        valorFiltro = "";
     }
+
+    private async Task Buscar()
+    {
+        if (valorFiltro.Trim() != "")
+        {
+            if (filtro == "id" && int.TryParse(valorFiltro, out int tecnicoId))
+            {
+                ListaTecnicos = await tecnicoservices.Listar(t => t.TecnicoId == tecnicoId);
+            }
+            else if (filtro == "descripcion")
+            {
+                ListaTecnicos = await tecnicoservices.Listar(t => t.Nombres == valorFiltro);
+            }          
+        }
+        else
+        {
+            ListaTecnicos = await tecnicoservices.Listar(p => true);
+        }
+    }
+
+    // public async Task Todos()
+    // {
+    //     ListaTecnicos = await tecnicoservices.Listar();
+    // }
 
     public void Crear()
     {
