@@ -17,6 +17,6 @@ public class Tecnicos
     public decimal SueldoHora { get; set; }
 
     [ForeignKey("TipoTecnico")]
-    [Range(1, 100, ErrorMessage = "Seleccione un Tipo")]
+    [Range(1, 50, ErrorMessage = "Seleccione un Tipo")]
     public int idTipo { get; set; }
 }
