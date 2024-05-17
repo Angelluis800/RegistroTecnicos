@@ -36,18 +36,19 @@
                         <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
                         <ValidationMessage For="@(()=>Tecnico.SueldoHora)"></ValidationMessage>
                     </div>
-                    @*Tipos*@
-                    <label class="form-label" for="Tipos">Tipo</label>
-                    <InputSelect id="Tipos" class="form-select" @bind-Value="Tecnico.idTipo">
-                        <opction value="0">Selecciona un Tipo</opction>
-                        @foreach (var tipotecnico in TipoTecnico)
-                        {
-                            <option value="@tipotecnico.TipoId">@tipotecnico.Descripcion</option>
-                        }
-                    </InputSelect>
-                    <ValidationMessage For="@(()=> Tecnico.idTipo)"></ValidationMessage>
+                    <div class=" col-4">
+                        @*Tipos*@
+                        <label class="form-label" for="Tipos">Tipo</label>
+                        <InputSelect id="Tipos" class="form-select" @bind-Value="Tecnico.idTipo">
+                            <opction value="0">Selecciona un Tipo</opction>
+                            @foreach (var tipotecnico in TipoTecnico)
+                            {
+                                <option value="@tipotecnico.TipoId">@tipotecnico.Descripcion</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(()=> Tecnico.idTipo)"></ValidationMessage>
+                    </div>                    
                 </div>
-
             </div>
             @*Footer*@
             <div class="card-footer">
