@@ -1,6 +1,7 @@
 ﻿@page "/Tecnico/Crear"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoservices
+@inject TipoTecnicoService tipotecnicosservice
 @inject NavigationManager navigation
 
 <PageTitle>Crear T&eacute;cnico</PageTitle>
@@ -35,6 +36,16 @@
                         <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
                         <ValidationMessage For="@(()=>Tecnico.SueldoHora)"></ValidationMessage>
                     </div>
+                    @*Tipos*@
+                    <label class="form-label" for="Tipos">Tipo</label>
+                    <InputSelect id="Tipos" class="form-select" @bind-Value="Tecnico.idTipo">
+                        <opction value="0">Selecciona un Tipo</opction>
+                        @foreach (var tipotecnico in TipoTecnico)
+                        {
+                            <option value="@tipotecnico.TipoId">@tipotecnico.Descripcion</option>
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(()=> Tecnico.idTipo)"></ValidationMessage>
                 </div>
 
             </div>
@@ -52,7 +63,13 @@
 @code {
 
     public Tecnicos? Tecnico { get; set; } = new Tecnicos();
+    public List<TipoTecnicos> TipoTecnico = new List<TipoTecnicos>();
     public string Mensaje = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        TipoTecnico = await tipotecnicosservice.Listar(t => t.TipoId > 0);
+    }
 
     public async Task Guardar()
     {
