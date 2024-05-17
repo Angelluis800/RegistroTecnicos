@@ -1,0 +1,87 @@
+﻿@page "/TipoTecnico/Editar/tecnicoid={idTipoTecnico:int}"
+@rendermode InteractiveServer
+@inject TipoTecnicoService tipotecnicoservices
+@inject NavigationManager navigation
+
+<PageTitle>Editar Tipo de T&eacute;cnico</PageTitle>
+
+<EditForm Model="TipoTecnico" OnValidSubmit="Editar">
+    <DataAnnotationsValidator />
+    <div class="container">
+        <div class="card shadow-lg">
+            @*Header*@
+            <div class="card-header text-white text-center">
+                <div class="bg-info rounded">
+                    <h1>Editar T&eacute;cnico</h1>
+                </div>
+            </div>
+            @*Body*@
+            <div class="card-body">
+                <div class="col-1">
+                    @*Id*@
+                    <label class="form-label" for="Id">Id</label>
+                    <InputNumber id="Id" class="form-control" readonly @bind-Value="TipoTecnico.TipoId"></InputNumber>
+                </div>
+                <div class="row">
+                    <div class="col-3">
+                        @*Nombre*@
+                        <label class="form-label" for="Descripcion">Descripcion</label>
+                        <InputText id="Descripcion" class="form-control" @bind-Value="TipoTecnico.Descripcion"></InputText>
+                        <ValidationMessage For="@(()=>TipoTecnico.Descripcion)"></ValidationMessage>
+                    </div>
+                </div>
+
+            </div>
+            @*Footer*@
+            <div class="card-footer">
+                <button class="btn btn-outline-success bi bi-pencil-square" type="submit"> Editar </button>
+                <button class="btn btn-outline-secondary" type="button" @onclick="Volver">Volver</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@Mensaje
+
+@code {
+
+    public TipoTecnicos? TipoTecnico { get; set; } = new TipoTecnicos();
+    [Parameter] // Poner esto para que en el page pueda recibirlo como parametro
+    public int IdTipoTecnico { get; set; }
+    public string Mensaje = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        TipoTecnico = await tipotecnicoservices.BuscarId(IdTipoTecnico);
+    }
+
+    public async Task Editar()
+    {
+        if (!await Validar())
+        {
+            var nuevo = await tipotecnicoservices.Guardar(TipoTecnico);
+            if (nuevo)
+            {
+                Mensaje = $"El técnico {TipoTecnico.Descripcion} ha sido editado correctamente";
+                await Task.Delay(1500);
+                Volver();
+            }
+            else
+            {
+                Mensaje = "El técnico no se ha podido editar correctamente";
+            }
+        }
+        else
+        {
+            Mensaje = "Ya existe un técnico con este nombre";
+        }
+    }
+
+    public async Task<bool> Validar()
+    {
+        var existe = await tipotecnicoservices.Existe(TipoTecnico.TipoId, TipoTecnico.Descripcion.ToLower());
+        return existe;
+    }
+
+    public void Volver() => navigation.NavigateTo("/TipoTecnico/Index");
+}
