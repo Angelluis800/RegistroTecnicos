@@ -54,18 +54,18 @@
             var nuevo = await tipotecnicoservices.Guardar(TipoTecnico);
             if (nuevo)
             {
-                Mensaje = $"El técnico {TipoTecnico.Descripcion} ha sido creado correctamente";
+                Mensaje = $"El tipo {TipoTecnico.Descripcion} ha sido creado correctamente";
                 await Task.Delay(1500);
                 Volver();
             }
             else
             {
-                Mensaje = "El técnico no se ha podido crear correctamente";
+                Mensaje = "El tipo no se ha podido crear correctamente";
             }
         }
         else
         {
-            Mensaje = "Ya existe un técnico con este nombre";
+            Mensaje = "Ya existe un tipo con esta descripción";
         }
     }
 
