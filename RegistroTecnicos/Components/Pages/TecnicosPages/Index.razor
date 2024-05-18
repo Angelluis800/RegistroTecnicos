@@ -17,13 +17,16 @@
         @*Body*@
         <div class="card-body">
             <div class="row mb-3 align-items-end">
+                @*Filtro*@
                 <div class="col-md-2">
                     <label for="Filtro" class="form-label">Filtrar por:</label>
                     <select @bind="filtro" class="form-select">
                         <option value="id">ID</option>
-                        <option value="descripcion">Nombre</option>                     
+                        <option value="nombre">Nombre</option>
+                        <option value="tipo">Tipo</option>
                     </select>
                 </div>
+                @*Busqueda*@
                 <div class="col-md-5">
                     <label for="ValorFiltro" class="form-label">Búsqueda:</label>
                     <div class="input-group">
@@ -33,14 +36,16 @@
                         </button>
                     </div>
                 </div>
+                @*Restablecer Tabla*@
                 <div class="col-md-2">
                     <button class="btn btn-outline-dark bi bi-clipboard2-fill" type="button" @onclick="OnInitializedAsync"> Todos</button>
                 </div>
+                @*Crear*@
                 <div class="col-md-3 text-end">
                     <button class="btn btn-success bi bi-person-fill-add" type="button" @onclick="Crear"> Crear</button>
                 </div>
             </div>
-           
+           @*Tabla*@
             <table class="table table-bordered">
                 <thead class="bg-info text-center text-white">
                     <tr>
@@ -106,10 +111,18 @@
             {
                 ListaTecnicos = await tecnicoservices.Listar(t => t.TecnicoId == tecnicoId);
             }
-            else if (filtro == "descripcion")
+            else if (filtro == "nombre")
             {
                 ListaTecnicos = await tecnicoservices.Listar(t => t.Nombres == valorFiltro);
-            }          
+            }
+            else if (filtro == "tipo")
+            {
+                var tipo = ListaTipos.FirstOrDefault(t => t.Descripcion.Equals(valorFiltro, StringComparison.OrdinalIgnoreCase));
+                if (tipo != null)
+                {
+                    ListaTecnicos = await tecnicoservices.Listar(t => t.idTipo == tipo.TipoId);
+                }
+            }
         }
         else
         {
