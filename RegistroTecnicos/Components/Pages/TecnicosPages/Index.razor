@@ -1,6 +1,7 @@
 ﻿@page "/Tecnico/Index"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoservices
+@inject TipoTecnicoService tipotecnicoservices
 @inject NavigationManager navigation
 
 <PageTitle>T&eacute;cnicos Index</PageTitle>
@@ -16,13 +17,16 @@
         @*Body*@
         <div class="card-body">
             <div class="row mb-3 align-items-end">
+                @*Filtro*@
                 <div class="col-md-2">
                     <label for="Filtro" class="form-label">Filtrar por:</label>
                     <select @bind="filtro" class="form-select">
                         <option value="id">ID</option>
-                        <option value="descripcion">Nombre</option>                     
+                        <option value="nombre">Nombre</option>
+                        <option value="tipo">Tipo</option>
                     </select>
                 </div>
+                @*Busqueda*@
                 <div class="col-md-5">
                     <label for="ValorFiltro" class="form-label">Búsqueda:</label>
                     <div class="input-group">
@@ -32,20 +36,23 @@
                         </button>
                     </div>
                 </div>
+                @*Restablecer Tabla*@
                 <div class="col-md-2">
-                    <button class="btn btn-outline-info bi bi-clipboard2-fill" type="button" @onclick="OnInitializedAsync"> Todos</button>
+                    <button class="btn btn-outline-dark bi bi-arrow-clockwise" type="button" @onclick="OnInitializedAsync"> Todos</button>
                 </div>
+                @*Crear*@
                 <div class="col-md-3 text-end">
                     <button class="btn btn-success bi bi-person-fill-add" type="button" @onclick="Crear"> Crear</button>
                 </div>
             </div>
-           
+           @*Tabla*@
             <table class="table table-bordered">
                 <thead class="bg-info text-center text-white">
                     <tr>
                         <th>IdT&eacute;cnico</th>
                         <th>Nombre</th>
                         <th>SueldoHora</th>
+                        <th>Tipo</th>
                         <th>Visualizar</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
@@ -59,7 +66,8 @@
                             <td class="text-center">@tecnico.TecnicoId</td>
                             <td class="text-center">@tecnico.Nombres</td>
                             <td class="text-center">@tecnico.SueldoHora.ToString("N2")</td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-dark bi bi-eye" @onclick="()=>Visualizar(tecnico.TecnicoId)"></button></td>
+                            <td class="text-center">@ObtenerTipo(tecnico.idTipo)</td>
+                            <td class="text-center"><button type="button" class="btn btn-outline-info bi bi-eye" @onclick="()=>Visualizar(tecnico.TecnicoId)"></button></td>
                             <td class="text-center"><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(tecnico.TecnicoId)"></button></td>
                             <td class="text-center"><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(tecnico.TecnicoId)"></button></td>
                         </tr>
@@ -76,14 +84,23 @@
 
 @code {
     public List<Tecnicos> ListaTecnicos = new List<Tecnicos>();
+    public List<TipoTecnicos> ListaTipos = new List<TipoTecnicos>();
     private string filtro = "";
     private string valorFiltro = "";
 
     protected override async Task OnInitializedAsync()
     {        
         ListaTecnicos = await tecnicoservices.Listar(e => e.TecnicoId > 0);
+        ListaTipos = await tipotecnicoservices.Listar(e => e.TipoId > 0);
         filtro = "";
         valorFiltro = "";
+    }
+
+    public string ObtenerTipo(int id)
+    {
+        var tipo = ListaTipos.FirstOrDefault(t => t.TipoId == id);
+
+        return tipo.Descripcion;
     }
 
     private async Task Buscar()
@@ -94,10 +111,18 @@
             {
                 ListaTecnicos = await tecnicoservices.Listar(t => t.TecnicoId == tecnicoId);
             }
-            else if (filtro == "descripcion")
+            else if (filtro == "nombre")
             {
                 ListaTecnicos = await tecnicoservices.Listar(t => t.Nombres == valorFiltro);
-            }          
+            }
+            else if (filtro == "tipo")
+            {
+                var tipo = ListaTipos.FirstOrDefault(t => t.Descripcion.Equals(valorFiltro, StringComparison.OrdinalIgnoreCase));
+                if (tipo != null)
+                {
+                    ListaTecnicos = await tecnicoservices.Listar(t => t.idTipo == tipo.TipoId);
+                }
+            }
         }
         else
         {

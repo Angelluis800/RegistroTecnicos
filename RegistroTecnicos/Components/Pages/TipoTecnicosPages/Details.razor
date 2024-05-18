@@ -1,0 +1,44 @@
+﻿@page "/TipoTecnico/Visualizar/tecnicoid={IdTipoTecnico:int}"
+@rendermode InteractiveServer
+@inject TipoTecnicoService tipotecnicoservices
+@inject NavigationManager navigation
+
+<PageTitle>Detalles Tipo de T&eacute;cnico</PageTitle>
+
+<div class="container">
+    <div class="card shadow-lg">
+        @*Header*@
+        <div class="card-header text-white text-center">
+            <div class="bg-info rounded">
+                <h1>Detalles Tipo de T&eacute;cnico</h1>
+            </div           
+        </div>
+        @*Body*@
+        <div class="card-body">            
+            <ul>
+                <li>ID: @TipoTecnico.TipoId</li>              
+                <li>Descripci&oacute;n: @TipoTecnico.Descripcion</li>                           
+            </ul>
+        </div>
+        @*Footer*@
+        <div class="card-footer">
+            <button class="btn btn-outline-secondary" type="button" @onclick="Volver">Volver</button>
+        </div>
+    </div>
+</div>
+@Mensaje
+   
+@code {
+
+    public TipoTecnicos? TipoTecnico { get; set; } = new TipoTecnicos();
+    [Parameter] // Poner esto para que en el page pueda recibirlo como paramétro
+    public int IdTipoTecnico { get; set; }
+    public string Mensaje = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        TipoTecnico = await tipotecnicoservices.BuscarId(IdTipoTecnico);
+    }
+
+    public void Volver() => navigation.NavigateTo("/TipoTecnico/Index");
+}
