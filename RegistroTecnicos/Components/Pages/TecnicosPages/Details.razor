@@ -1,6 +1,7 @@
 ﻿@page "/Tecnico/Visualizar/tecnicoid={idTecnico:int}"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoservices
+@inject TipoTecnicoService tipotecnicoservices
 @inject NavigationManager navigation
 
 <PageTitle>Detalles</PageTitle>
@@ -18,6 +19,7 @@
             <ul>
                 <li>ID: @Tecnico.TecnicoId</li>              
                 <li>Name: @Tecnico.Nombres</li>
+                <li>Tipo: @ObtenerTipo(Tecnico.idTipo)</li>
                 <li>Sueldo: @Tecnico.SueldoHora.ToString("N2")</li>               
             </ul>
         </div>
@@ -31,13 +33,21 @@
 @code {
 
     public Tecnicos? Tecnico { get; set; } = new Tecnicos();
+    public List<TipoTecnicos> ListaTipos = new List<TipoTecnicos>();
     [Parameter] // Poner esto para que en el page pueda recibirlo como parametro
     public int idTecnico { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {
-        await Task.Delay(1000);
+    {        
         Tecnico = await tecnicoservices.BuscarId(idTecnico);
+        ListaTipos = await tipotecnicoservices.Listar(e => e.TipoId > 0);
+    }
+
+    public string ObtenerTipo(int id)
+    {
+        var tipo = ListaTipos.FirstOrDefault(t => t.TipoId == id);
+
+        return tipo.Descripcion;
     }
 
     public void Volver() => navigation.NavigateTo("/Tecnico/Index");
