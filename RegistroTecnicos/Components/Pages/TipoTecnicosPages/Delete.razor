@@ -46,9 +46,7 @@
     public async Task Eliminar()
     {
         await tipotecnicoservices.Eliminar(IdTipoTecnico);
-        await Task.Delay(1500);
         MostrarMensaje(ToastType.Success, "Tipo Eliminado Correctamente");
-        Volver();
     }
 
     public void Volver() => navigation.NavigateTo("/TipoTecnico/Index");
