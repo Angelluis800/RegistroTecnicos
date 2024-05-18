@@ -113,7 +113,7 @@
             }
             else if (filtro == "nombre")
             {
-                ListaTecnicos = await tecnicoservices.Listar(t => t.Nombres == valorFiltro);
+                ListaTecnicos = await tecnicoservices.Listar(t => t.Nombres.ToLower().Contains(valorFiltro.ToLower()));
             }
             else if (filtro == "tipo")
             {
