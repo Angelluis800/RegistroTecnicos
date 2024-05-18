@@ -1,6 +1,7 @@
 ﻿@page "/Tecnico/Editar/tecnicoid={idTecnico:int}"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoservices
+@inject TipoTecnicoService tipotecnicosservice
 @inject NavigationManager navigation
 
 <PageTitle>Editar T&eacute;cnico</PageTitle>
@@ -24,17 +25,29 @@
                     <InputNumber id="Id" class="form-control" readonly @bind-Value="Tecnico.TecnicoId"></InputNumber>
                 </div>
                 <div class="row">
+                    @*Nombre*@
                     <div class="col-3">
-                        @*Nombre*@
                         <label class="form-label" for="Nombres">Nombre</label>
                         <InputText id="Nombres" class="form-control" @bind-Value="Tecnico.Nombres" placeholder="Ej: Jose Pichardo"></InputText>
                         <ValidationMessage For="@(()=>Tecnico.Nombres)"></ValidationMessage>
                     </div>
+                    @*SueldoHora*@
                     <div class="col-3">
-                        @*SueldoHora*@
                         <label class="form-label" for="SueldoHora">SueldoHora</label>
                         <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
                         <ValidationMessage For="@(()=>Tecnico.SueldoHora)"></ValidationMessage>
+                    </div>
+                    @*Tipos*@
+                    <div class=" col-4">
+                        <label class="form-label" for="Tipos">Tipo</label>
+                        <InputSelect id="Tipos" class="form-select" @bind-Value="Tecnico.idTipo">
+                            <opction value="0">Selecciona un Tipo</opction>
+                            @foreach (var tipotecnico in TipoTecnico)
+                            {
+                                <option value="@tipotecnico.TipoId">@tipotecnico.Descripcion</option>
+                            }
+                        </InputSelect>
+                        <ValidationMessage For="@(()=> Tecnico.idTipo)"></ValidationMessage>
                     </div>
                 </div>
 
@@ -51,6 +64,7 @@
 @code {
 
     public Tecnicos? Tecnico { get; set; } = new Tecnicos();
+    public List<TipoTecnicos> TipoTecnico = new List<TipoTecnicos>();
     [Parameter] // Poner esto para que en el page pueda recibirlo como parametro
     public int idTecnico { get; set; }
     List<ToastMessage> Mensajes = new List<ToastMessage>();
@@ -58,6 +72,7 @@
     protected override async Task OnInitializedAsync()
     {
         Tecnico = await tecnicoservices.BuscarId(idTecnico);
+        TipoTecnico = await tipotecnicosservice.Listar(t => t.TipoId > 0);
     }
 
     public async Task Editar()
