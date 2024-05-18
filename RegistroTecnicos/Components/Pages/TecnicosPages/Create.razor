@@ -24,20 +24,20 @@
                 <InputNumber id="Id" class="form-control" readonly @bind-Value="Tecnico.TecnicoId"></InputNumber>
                 </div>
                 <div class="row">
+                    @*Nombre*@
                     <div class="col-3">
-                        @*Nombre*@
                         <label class="form-label" for="Nombres">Nombre</label>
                         <InputText id="Nombres" class="form-control" @bind-Value="Tecnico.Nombres" placeholder="Ej: Jose Pichardo"></InputText>
                         <ValidationMessage For="@(()=>Tecnico.Nombres)"></ValidationMessage>
                     </div>
+                    @*SueldoHora*@
                     <div class="col-3">
-                        @*SueldoHora*@
                         <label class="form-label" for="SueldoHora">SueldoHora</label>
                         <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
                         <ValidationMessage For="@(()=>Tecnico.SueldoHora)"></ValidationMessage>
                     </div>
+                    @*Tipos*@
                     <div class=" col-4">
-                        @*Tipos*@
                         <label class="form-label" for="Tipos">Tipo</label>
                         <InputSelect id="Tipos" class="form-select" @bind-Value="Tecnico.idTipo">
                             <opction value="0">Selecciona un Tipo</opction>
