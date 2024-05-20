@@ -55,7 +55,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Tipo = await tipotecnicoservice.Listar(e => e.TipoId > 0);       
+        Tipo = await tipotecnicoservice.Listar(e => true);       
     }
 
     public void Crear()

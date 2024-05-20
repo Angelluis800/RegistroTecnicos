@@ -90,8 +90,8 @@
 
     protected override async Task OnInitializedAsync()
     {        
-        ListaTecnicos = await tecnicoservices.Listar(e => e.TecnicoId > 0);
-        ListaTipos = await tipotecnicoservices.Listar(e => e.TipoId > 0);
+        ListaTecnicos = await tecnicoservices.Listar(e => true);
+        ListaTipos = await tipotecnicoservices.Listar(e => true);
         filtro = "";
         valorFiltro = "";
     }

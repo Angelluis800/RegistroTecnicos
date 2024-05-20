@@ -40,7 +40,7 @@
     protected override async Task OnInitializedAsync()
     {        
         Tecnico = await tecnicoservices.BuscarId(idTecnico);
-        ListaTipos = await tipotecnicoservices.Listar(e => e.TipoId > 0);
+        ListaTipos = await tipotecnicoservices.Listar(e => true);
     }
 
     public string ObtenerTipo(int id)
