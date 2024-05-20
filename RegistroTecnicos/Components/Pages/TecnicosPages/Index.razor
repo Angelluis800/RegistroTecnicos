@@ -117,7 +117,7 @@
             }
             else if (filtro == "tipo")
             {
-                var tipo = ListaTipos.FirstOrDefault(t => t.Descripcion.Equals(valorFiltro, StringComparison.OrdinalIgnoreCase));
+                var tipo = ListaTipos.FirstOrDefault(t => t.Descripcion.ToLower().Contains(valorFiltro, StringComparison.OrdinalIgnoreCase));
                 if (tipo != null)
                 {
                     ListaTecnicos = await tecnicoservices.Listar(t => t.idTipo == tipo.TipoId);
