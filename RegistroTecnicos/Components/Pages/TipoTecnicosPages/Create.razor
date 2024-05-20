@@ -43,7 +43,7 @@
 
 @code {
 
-    public TipoTecnicos? TipoTecnico { get; set; } = new TipoTecnicos();
+    public TiposTecnicos? TipoTecnico { get; set; } = new TiposTecnicos();
     List<ToastMessage> Mensajes = new List<ToastMessage>();
 
     public async Task Guardar()
@@ -54,7 +54,7 @@
             if (nuevo)
             {
                 MostrarMensaje(ToastType.Success, $"El tipo {TipoTecnico.Descripcion} ha sido creado correctamente");
-                TipoTecnico = new TipoTecnicos();
+                TipoTecnico = new TiposTecnicos();
             }
             else
             {

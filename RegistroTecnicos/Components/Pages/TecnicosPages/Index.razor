@@ -84,7 +84,7 @@
 
 @code {
     public List<Tecnicos> ListaTecnicos = new List<Tecnicos>();
-    public List<TipoTecnicos> ListaTipos = new List<TipoTecnicos>();
+    public List<TiposTecnicos> ListaTipos = new List<TiposTecnicos>();
     private string filtro = "";
     private string valorFiltro = "";
 
@@ -117,7 +117,7 @@
             }
             else if (filtro == "tipo")
             {
-                var tipo = ListaTipos.FirstOrDefault(t => t.Descripcion.ToLower().Contains(valorFiltro, StringComparison.OrdinalIgnoreCase));
+                var tipo = ListaTipos.FirstOrDefault(t => t.Descripcion.ToLower().Contains(valorFiltro.ToLower()));
                 if (tipo != null)
                 {
                     ListaTecnicos = await tecnicoservices.Listar(t => t.idTipo == tipo.TipoId);

@@ -13,19 +13,19 @@ public class TipoTecnicoService
     {
         _contexto = contexto;
     }
-    public async Task<bool> Guardar(TipoTecnicos tipo)
+    public async Task<bool> Guardar(TiposTecnicos tipo)
     {
         if (!await Existe(tipo.TipoId))
             return await Insertar(tipo);
         else
             return await Modificar(tipo);
     }
-    private async Task<bool> Insertar(TipoTecnicos tipo)
+    private async Task<bool> Insertar(TiposTecnicos tipo)
     {
         _contexto.TiposTecnicos.Add(tipo);
         return await _contexto.SaveChangesAsync() > 0;
     }
-    private async Task<bool> Modificar(TipoTecnicos tipo)
+    private async Task<bool> Modificar(TiposTecnicos tipo)
     {
         _contexto.TiposTecnicos.Update(tipo);
         var modificado = await _contexto.SaveChangesAsync() > 0;
@@ -44,7 +44,7 @@ public class TipoTecnicoService
             .ExecuteDeleteAsync();
         return tecnicos > 0;
     }
-    public async Task<TipoTecnicos?> BuscarId(int id)
+    public async Task<TiposTecnicos?> BuscarId(int id)
     {
         return await _contexto.TiposTecnicos
             .AsNoTracking()
@@ -57,7 +57,7 @@ public class TipoTecnicoService
             .AnyAsync(t => t.TipoId != id && t.Descripcion.ToLower().Equals(descripcion));
     }
 
-    public async Task<List<TipoTecnicos>> Listar(Expression<Func<TipoTecnicos, bool>> criterio)
+    public async Task<List<TiposTecnicos>> Listar(Expression<Func<TiposTecnicos, bool>> criterio)
     {
         return await _contexto.TiposTecnicos
             .AsNoTracking()
