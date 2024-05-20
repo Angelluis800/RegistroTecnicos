@@ -54,7 +54,7 @@ public class TipoTecnicoService
     public async Task<bool> Existe(int id, string? descripcion)
     {
         return await _contexto.TiposTecnicos
-            .AnyAsync(t => t.TipoId != id && t.Descripcion.ToLower().Equals(descripcion));
+            .AnyAsync(t => t.TipoId != id && t.Descripcion.ToLower().Equals(descripcion.ToLower()));
     }
 
     public async Task<List<TiposTecnicos>> Listar(Expression<Func<TiposTecnicos, bool>> criterio)
