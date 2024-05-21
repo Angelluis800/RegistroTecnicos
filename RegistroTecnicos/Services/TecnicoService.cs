@@ -57,13 +57,6 @@ public class TecnicoService
             .AnyAsync(t => t.TecnicoId != id && t.Nombres.ToLower().Equals(nombre));
     }
 
-
-    //public async Task<Tecnicos?> BuscarNombre(string? nombre)
-    //{
-    //    return await _contexto.Tecnicos
-    //        .AsNoTracking()
-    //        .FirstOrDefaultAsync(e => e.Nombres == nombre);
-    //}
     public async Task<List<Tecnicos>> Listar(Expression<Func<Tecnicos, bool>> criterio)
     {
         return await _contexto.Tecnicos
