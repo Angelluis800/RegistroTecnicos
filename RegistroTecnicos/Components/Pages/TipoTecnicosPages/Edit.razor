@@ -1,6 +1,6 @@
 ﻿@page "/TipoTecnico/Editar/tecnicoid={idTipoTecnico:int}"
 @rendermode InteractiveServer
-@inject TipoTecnicoService tipotecnicoservices
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Editar Tipo de T&eacute;cnico</PageTitle>
@@ -51,14 +51,14 @@
  
     protected override async Task OnInitializedAsync()
     {
-        TipoTecnico = await tipotecnicoservices.BuscarId(IdTipoTecnico);
+        TipoTecnico = await tipoTecnicoService.BuscarId(IdTipoTecnico);
     }
 
     public async Task Editar()
     {
         if (!await Validar())
         {
-            var nuevo = await tipotecnicoservices.Guardar(TipoTecnico);
+            var nuevo = await tipoTecnicoService.Guardar(TipoTecnico);
             if (nuevo)
             {
                 MostrarMensaje(ToastType.Success, $"El tipo {TipoTecnico.Descripcion} ha sido editado correctamente");
@@ -77,7 +77,7 @@
 
     public async Task<bool> Validar()
     {
-        var existe = await tipotecnicoservices.Existe(TipoTecnico.TipoId, TipoTecnico.Descripcion.ToLower());
+        var existe = await tipoTecnicoService.Existe(TipoTecnico.TipoId, TipoTecnico.Descripcion.ToLower());
         return existe;
     }
 

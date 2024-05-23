@@ -1,7 +1,7 @@
 ﻿@page "/Tecnico/Crear"
 @rendermode InteractiveServer
-@inject TecnicoService tecnicoservices
-@inject TipoTecnicoService tipotecnicosservice
+@inject TecnicoService tecnicoService
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Crear T&eacute;cnico</PageTitle>
@@ -67,14 +67,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        TipoTecnico = await tipotecnicosservice.Listar(t => true);
+        TipoTecnico = await tipoTecnicoService.Listar(t => true);
     }
 
     public async Task Guardar()
     {
         if (!await Validar())
         {
-            var nuevo = await tecnicoservices.Guardar(Tecnico);
+            var nuevo = await tecnicoService.Guardar(Tecnico);
             if (nuevo)
             {
                 MostrarMensaje(ToastType.Success, $"El técnico {Tecnico.Nombres} ha sido creado correctamente");
@@ -93,7 +93,7 @@
 
     public async Task<bool> Validar()
     {
-        var existe = await tecnicoservices.Existe(Tecnico.TecnicoId, Tecnico.Nombres);
+        var existe = await tecnicoService.Existe(Tecnico.TecnicoId, Tecnico.Nombres);
         return existe;
     }
 

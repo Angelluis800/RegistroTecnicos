@@ -1,7 +1,7 @@
 ﻿@page "/Tecnico/Index"
 @rendermode InteractiveServer
-@inject TecnicoService tecnicoservices
-@inject TipoTecnicoService tipotecnicoservices
+@inject TecnicoService tecnicoService
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>T&eacute;cnicos Index</PageTitle>
@@ -90,8 +90,8 @@
 
     protected override async Task OnInitializedAsync()
     {        
-        ListaTecnicos = await tecnicoservices.Listar(e => true);
-        ListaTipos = await tipotecnicoservices.Listar(e => true);
+        ListaTecnicos = await tecnicoService.Listar(e => true);
+        ListaTipos = await tipoTecnicoService.Listar(e => true);
         filtro = "";
         valorFiltro = "";
     }
@@ -102,15 +102,15 @@
         {
             if (filtro == "id" && int.TryParse(valorFiltro, out int tecnicoId))
             {
-                ListaTecnicos = await tecnicoservices.Listar(t => t.TecnicoId == tecnicoId);
+                ListaTecnicos = await tecnicoService.Listar(t => t.TecnicoId == tecnicoId);
             }
             else if (filtro == "nombre")
             {
-                ListaTecnicos = await tecnicoservices.Listar(t => t.Nombres.ToLower().Contains(valorFiltro.ToLower()));
+                ListaTecnicos = await tecnicoService.Listar(t => t.Nombres.ToLower().Contains(valorFiltro.ToLower()));
             }
             else if (filtro == "tipo")
             {
-                ListaTecnicos = await tecnicoservices
+                ListaTecnicos = await tecnicoService
                     .Listar(t => t.TiposTecnicos.Descripcion
                     .ToLower()
                     .Contains(valorFiltro
@@ -119,7 +119,7 @@
         }
         else
         {
-            ListaTecnicos = await tecnicoservices.Listar(p => true);
+            ListaTecnicos = await tecnicoService.Listar(p => true);
         }
     }
 

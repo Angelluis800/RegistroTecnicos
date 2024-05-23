@@ -1,6 +1,6 @@
 ﻿@page "/TipoTecnico/Visualizar/tecnicoid={IdTipoTecnico:int}"
 @rendermode InteractiveServer
-@inject TipoTecnicoService tipotecnicoservices
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Detalles Tipo de T&eacute;cnico</PageTitle>
@@ -37,7 +37,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        TipoTecnico = await tipotecnicoservices.BuscarId(IdTipoTecnico);
+        TipoTecnico = await tipoTecnicoService.BuscarId(IdTipoTecnico);
     }
 
     public void Volver() => navigation.NavigateTo("/TipoTecnico/Index");

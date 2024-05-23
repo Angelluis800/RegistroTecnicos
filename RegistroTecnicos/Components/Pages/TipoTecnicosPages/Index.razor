@@ -1,6 +1,6 @@
 ﻿@page "/TipoTecnico/Index"
 @rendermode InteractiveServer
-@inject TipoTecnicoService tipotecnicoservice
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle> Tipo de T&eacute;cnicos Index</PageTitle>
@@ -55,7 +55,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Tipo = await tipotecnicoservice.Listar(e => true);       
+        Tipo = await tipoTecnicoService.Listar(e => true);       
     }
 
     public void Crear()

@@ -1,6 +1,6 @@
 ﻿@page "/Tecnico/Eliminar/tecnicoid={idTecnico:int}"
 @rendermode InteractiveServer
-@inject TecnicoService tecnicoservices
+@inject TecnicoService tecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Eliminar T&eacute;cnico</PageTitle>
@@ -41,12 +41,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Tecnico = await tecnicoservices.BuscarId(idTecnico);
+        Tecnico = await tecnicoService.BuscarId(idTecnico);
     }
 
     public async Task Eliminar()
     {
-        await tecnicoservices.Eliminar(idTecnico);
+        await tecnicoService.Eliminar(idTecnico);
         MostrarMensaje(ToastType.Success, "Técnico Eliminado Correctamente");
     }
 

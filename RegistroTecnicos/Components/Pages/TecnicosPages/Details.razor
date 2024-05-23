@@ -1,7 +1,7 @@
 ﻿@page "/Tecnico/Visualizar/tecnicoid={idTecnico:int}"
 @rendermode InteractiveServer
-@inject TecnicoService tecnicoservices
-@inject TipoTecnicoService tipotecnicoservices
+@inject TecnicoService tecnicoService
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Detalles</PageTitle>
@@ -39,8 +39,8 @@
 
     protected override async Task OnInitializedAsync()
     {        
-        Tecnico = await tecnicoservices.BuscarId(idTecnico);
-        ListaTipos = await tipotecnicoservices.Listar(e => true);
+        Tecnico = await tecnicoService.BuscarId(idTecnico);
+        ListaTipos = await tipoTecnicoService.Listar(e => true);
     }
 
     public string ObtenerTipo(int id)

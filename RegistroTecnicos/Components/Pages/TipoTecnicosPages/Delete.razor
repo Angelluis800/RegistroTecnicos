@@ -1,6 +1,6 @@
 ﻿@page "/TipoTecnico/Eliminar/tecnicoid={IdTipoTecnico:int}"
 @rendermode InteractiveServer
-@inject TipoTecnicoService tipotecnicoservices
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Eliminar Tipo de T&eacute;cnico</PageTitle>
@@ -40,12 +40,12 @@
 
     protected override async Task OnInitializedAsync()
     {
-        TipoTecnico = await tipotecnicoservices.BuscarId(IdTipoTecnico);
+        TipoTecnico = await tipoTecnicoService.BuscarId(IdTipoTecnico);
     }
 
     public async Task Eliminar()
     {
-        await tipotecnicoservices.Eliminar(IdTipoTecnico);
+        await tipoTecnicoService.Eliminar(IdTipoTecnico);
         MostrarMensaje(ToastType.Success, "Tipo Eliminado Correctamente");
     }
 

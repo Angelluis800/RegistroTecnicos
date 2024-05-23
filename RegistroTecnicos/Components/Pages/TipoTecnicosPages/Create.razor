@@ -1,6 +1,6 @@
 ﻿@page "/TipoTecnico/Crear"
 @rendermode InteractiveServer
-@inject TipoTecnicoService tipotecnicoservices
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Crear Tipo de T&eacute;cnico</PageTitle>
@@ -50,10 +50,10 @@
     {
         if (!await Validar())
         {
-            var nuevo = await tipotecnicoservices.Guardar(TipoTecnico);
+            var nuevo = await tipoTecnicoService.Guardar(TipoTecnico);
             if (nuevo)
             {
-                MostrarMensaje(ToastType.Success, $"El tipo {TipoTecnico.Descripcion} ha sido creado correctamente");
+                MostrarMensaje(ToastType.Success, $"El tipo {TipoTecnico?.Descripcion} ha sido creado correctamente");
                 TipoTecnico = new TiposTecnicos();
             }
             else
@@ -69,7 +69,7 @@
 
     public async Task<bool> Validar()
     {
-        var existe = await tipotecnicoservices.Existe(TipoTecnico.TipoId, TipoTecnico.Descripcion.ToLower());
+        var existe = await tipoTecnicoService.Existe(TipoTecnico.TipoId, TipoTecnico?.Descripcion?.ToLower());
         return existe;
     }
 

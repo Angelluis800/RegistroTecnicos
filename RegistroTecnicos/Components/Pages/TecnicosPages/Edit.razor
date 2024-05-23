@@ -1,7 +1,7 @@
 ﻿@page "/Tecnico/Editar/tecnicoid={idTecnico:int}"
 @rendermode InteractiveServer
-@inject TecnicoService tecnicoservices
-@inject TipoTecnicoService tipotecnicosservice
+@inject TecnicoService tecnicoService
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Editar T&eacute;cnico</PageTitle>
@@ -71,15 +71,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Tecnico = await tecnicoservices.BuscarId(idTecnico);
-        TipoTecnico = await tipotecnicosservice.Listar(t => true);
+        Tecnico = await tecnicoService.BuscarId(idTecnico);
+        TipoTecnico = await tipoTecnicoService.Listar(t => true);
     }
 
     public async Task Editar()
     {
         if (!await Validar())
         {
-            var nuevo = await tecnicoservices.Guardar(Tecnico);
+            var nuevo = await tecnicoService.Guardar(Tecnico);
             if (nuevo)
             {
                 MostrarMensaje(ToastType.Success, $"El técnico {Tecnico.Nombres} ha sido editado correctamente");
@@ -98,7 +98,7 @@
 
     public async Task<bool> Validar()
     {
-        var existe = await tecnicoservices.Existe(Tecnico.TecnicoId, Tecnico.Nombres.ToLower());
+        var existe = await tecnicoService.Existe(Tecnico.TecnicoId, Tecnico.Nombres.ToLower());
         return existe;
     }
 
