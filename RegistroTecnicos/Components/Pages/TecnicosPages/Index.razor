@@ -66,7 +66,7 @@
                             <td class="text-center">@tecnico.TecnicoId</td>
                             <td class="text-center">@tecnico.Nombres</td>
                             <td class="text-center">@tecnico.SueldoHora.ToString("N2")</td>
-                            <td class="text-center">@ObtenerTipo(tecnico.idTipo)</td>
+                            <td class="text-center">@tecnico.TiposTecnicos?.Descripcion</td>
                             <td class="text-center"><button type="button" class="btn btn-outline-info bi bi-eye" @onclick="()=>Visualizar(tecnico.TecnicoId)"></button></td>
                             <td class="text-center"><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(tecnico.TecnicoId)"></button></td>
                             <td class="text-center"><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(tecnico.TecnicoId)"></button></td>
@@ -96,13 +96,6 @@
         valorFiltro = "";
     }
 
-    public string ObtenerTipo(int id)
-    {
-        var tipo = ListaTipos.FirstOrDefault(t => t.TipoId == id);
-
-        return tipo.Descripcion;
-    }
-
     private async Task Buscar()
     {
         if (valorFiltro.Trim() != "")
@@ -117,11 +110,11 @@
             }
             else if (filtro == "tipo")
             {
-                var tipo = ListaTipos.FirstOrDefault(t => t.Descripcion.ToLower().Contains(valorFiltro.ToLower()));
-                if (tipo != null)
-                {
-                    ListaTecnicos = await tecnicoservices.Listar(t => t.idTipo == tipo.TipoId);
-                }
+                ListaTecnicos = await tecnicoservices
+                    .Listar(t => t.TiposTecnicos.Descripcion
+                    .ToLower()
+                    .Contains(valorFiltro
+                    .ToLower()));
             }
         }
         else
