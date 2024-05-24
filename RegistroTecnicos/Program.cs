@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using RegistroIncentivos.Services;
 using RegistroTecnicos.Components;
 using RegistroTecnicos.DAL;
 using RegistroTecnicos.Models;
@@ -18,7 +19,7 @@ builder.Services.AddDbContext<Contexto>(Options => Options.UseSqlite(ConStr));
 //Inyección de servicios de los modelos
 builder.Services.AddScoped<TecnicoService>();
 builder.Services.AddScoped<TipoTecnicoService>();
-builder.Services.AddScoped<Incentivos>();
+builder.Services.AddScoped<IncentivoService>();
 
 builder.Services.AddBlazorBootstrap(); //Implementando paquete bootstrap
 
