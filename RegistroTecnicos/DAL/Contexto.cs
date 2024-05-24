@@ -9,5 +9,6 @@ namespace RegistroTecnicos.DAL
 
         public DbSet<Tecnicos> Tecnicos { get; set; }
         public DbSet<TiposTecnicos> TiposTecnicos { get; set; }
+        public DbSet<Incentivos> Incentivos { get; set; }
     }
 }
