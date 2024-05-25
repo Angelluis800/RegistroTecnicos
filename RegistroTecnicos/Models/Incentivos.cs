@@ -21,7 +21,7 @@ public class Incentivos
     public int CantidadServicios { get; set; }
 
     [Required(ErrorMessage = "Este Campo Debe Contener al Menos un Servicio a Completar")]
-    [Range(0.1, 1000000, ErrorMessage = "Este Campo debe Contener al Menos un Servicio y no más de 100 Servicios")]
+    [Range(0.1, 1000000, ErrorMessage = "Este Campo debe Contener al Menos un Monto de 0.1")]
     public decimal Monto { get; set; }
 
     [ForeignKey("TiposTecnicos")]
