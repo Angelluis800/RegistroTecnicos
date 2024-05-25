@@ -47,6 +47,7 @@ public class TecnicoService
     public async Task<Tecnicos?> BuscarId(int id)
     {
         return await _contexto.Tecnicos
+            .Include(e => e.TiposTecnicos)
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.TecnicoId == id);
     }
