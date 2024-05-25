@@ -47,6 +47,7 @@ public class IncentivoService
     public async Task<Incentivos?> BuscarId(int id)
     {
         return await _contexto.Incentivos
+            .Include(e => e.TiposTecnicos)
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.IncentivoId == id);
     }
