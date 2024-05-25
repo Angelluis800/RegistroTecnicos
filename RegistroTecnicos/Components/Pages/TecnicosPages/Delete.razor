@@ -1,6 +1,7 @@
 ﻿@page "/Tecnico/Eliminar/tecnicoid={idTecnico:int}"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoService
+@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>Eliminar T&eacute;cnico</PageTitle>
@@ -21,7 +22,8 @@
             <ul>
                 <li>ID: @Tecnico.TecnicoId</li>              
                 <li>Name: @Tecnico.Nombres</li>
-                <li>Sueldo: @Tecnico.SueldoHora.ToString("N2")</li>               
+                <li>Sueldo: @Tecnico.SueldoHora.ToString("N2")</li>   
+                <li>Tipo: @Tecnico?.TiposTecnicos?.Descripcion</li>
             </ul>
         </div>
         @*Footer*@
