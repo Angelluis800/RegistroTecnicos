@@ -13,7 +13,7 @@ public class Incentivos
     public string? Descripcion { get; set; }
 
     [Required(ErrorMessage = "Debe Contener una Fecha")]
-    [RegularExpression(@"\d{2}/\d{2}/\d{4}", ErrorMessage = "La fecha debe estar en formato dd-MM-yyyy")]
+    [RegularExpression(@"\d{2}/\d{2}/\d{4}", ErrorMessage = "La fecha debe estar en formato dd/MM/yyyy")]
     public string? Fecha { get; set; }
 
     [Required(ErrorMessage = "Este Campo Debe Contener al Menos un Servicio a Completar")]
