@@ -54,7 +54,7 @@ public class IncentivoService
     public async Task<bool> Existe(int id, string? descripcion)
     {
         return await _contexto.Incentivos
-            .AnyAsync(t => t.IncentivoId != id && t.Descripcion.ToLower().Equals(descripcion));
+            .AnyAsync(t => t.IncentivoId != id && t.Descripcion.ToLower().Equals(descripcion.ToLower()));
     }
 
     public async Task<List<Incentivos>> Listar(Expression<Func<Incentivos, bool>> criterio)
