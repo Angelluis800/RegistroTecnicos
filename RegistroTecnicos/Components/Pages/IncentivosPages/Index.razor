@@ -1,0 +1,143 @@
+﻿@page "/Incentivo/Index"
+@rendermode InteractiveServer
+@inject IncentivoService incentivoService
+@inject TipoTecnicoService tipoTecnicoService
+@inject NavigationManager navigation
+
+<PageTitle>Incentivo Index</PageTitle>
+
+<div class="container">
+    <div class="card shadow-lg">
+        @*Header*@
+        <div class="card-header text-white text-center">
+            <div class="bg-info rounded">
+                <h1>Registro de Incentivos</h1>
+            </div>
+        </div>
+        @*Body*@
+        <div class="card-body">
+            <div class="row mb-3 align-items-end">
+                @*Filtro*@
+                <div class="col-md-2">
+                    <label for="Filtro" class="form-label">Filtrar por:</label>
+                    <select @bind="filtro" class="form-select">
+                        <option value="id">ID</option>
+                        <option value="descripcion">Descripci&oacute;n</option>
+                        <option value="tipo">Tipo</option>
+                    </select>
+                </div>
+                @*Busqueda*@
+                <div class="col-md-5">
+                    <label for="ValorFiltro" class="form-label">Búsqueda:</label>
+                    <div class="input-group">
+                        <input @bind="valorFiltro" class="form-control" placeholder="Buscar" />
+                        <button @onclick="Buscar" class="btn btn-outline-primary" type="button">
+                            <span class="bi bi-search"></span> Buscar
+                        </button>
+                    </div>
+                </div>
+                @*Restablecer Tabla*@
+                <div class="col-md-2">
+                    <button class="btn btn-outline-dark bi bi-arrow-clockwise" type="button" @onclick="OnInitializedAsync"> Todos</button>
+                </div>
+                @*Crear*@
+                <div class="col-md-3 text-end">
+                    <button class="btn btn-success bi bi-person-fill-add" type="button" @onclick="Crear"> Crear</button>
+                </div>
+            </div>
+            @*Tabla*@
+            <table class="table table-bordered">
+                <thead class="bg-info text-center text-white">
+                    <tr>
+                        <th>IncentivoId</th>
+                        <th>Descripci&oacute;n</th>
+                        <th>Tipo</th>                                               
+                        <th>Visualizar</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var incentivo in Incentivo)
+                    {
+                        <tr class="text-center">
+                            <td>@incentivo.IncentivoId</td>
+                            <td>@incentivo.Descripcion</td>                            
+                            <td>@incentivo.TiposTecnicos?.Descripcion</td>                            
+                            <td><button type="button" class="btn btn-outline-info bi bi-eye" @onclick="()=>Visualizar(incentivo.IncentivoId)"></button></td>
+                            <td><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(incentivo.IncentivoId)"></button></td>
+                            <td><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(incentivo.IncentivoId)"></button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @*Footer*@
+        <div class="card-footer">
+            <p>Total de T&eacute;cnicos: @Incentivo.Count()</p>
+        </div>
+    </div>
+</div>
+
+@code {
+    public List<Incentivos> Incentivo = new List<Incentivos>();
+    public List<TiposTecnicos> ListaTipos = new List<TiposTecnicos>();
+    private string filtro = "";
+    private string valorFiltro = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        Incentivo = await incentivoService.Listar(e => true);
+        ListaTipos = await tipoTecnicoService.Listar(e => true);
+        filtro = "";
+        valorFiltro = "";
+    }
+
+    private async Task Buscar()
+    {
+        if (valorFiltro.Trim() != "")
+        {
+            if (filtro == "id" && int.TryParse(valorFiltro, out int incentivoId))
+            {
+                Incentivo = await incentivoService.Listar(e => e.IncentivoId == incentivoId);
+            }
+            else if (filtro == "descripcion")
+            {
+                Incentivo = await incentivoService.Listar(e => e.Descripcion.ToLower().Contains(valorFiltro.ToLower()));
+            }
+            else if (filtro == "tipo")
+            {
+                Incentivo = await incentivoService
+                    .Listar(t => t.TiposTecnicos.Descripcion
+                    .ToLower()
+                    .Contains(valorFiltro
+                    .ToLower()));
+            }
+        }
+        else
+        {
+            Incentivo = await incentivoService.Listar(p => true);
+        }
+    }
+
+    public void Crear()
+    {
+        navigation.NavigateTo("/Incentivo/Crear");
+    }
+
+    public void Visualizar(int id)
+    {
+        navigation.NavigateTo($"/Incentivo/Visualizar/incentivoid={id}");
+    }
+
+    public void Editar(int id)
+    {
+        navigation.NavigateTo($"/Incentivo/Editar/incentivoid={id}");
+    }
+
+    public void Eliminar(int id)
+    {
+        navigation.NavigateTo($"/Incentivo/Eliminar/incentivoid={id}");
+    }
+}
