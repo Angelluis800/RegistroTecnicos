@@ -1,0 +1,46 @@
+﻿@page "/Incentivo/Visualizar/incentivoid={IncentivoId:int}"
+@rendermode InteractiveServer
+@inject IncentivoService incentivoService
+@inject NavigationManager navigation
+
+<PageTitle>Detalles Incentivo</PageTitle>
+<div class="container">
+    <div class="card shadow-lg">
+        @*Header*@
+        <div class="card-header text-white text-center">
+            <div class="bg-info rounded">
+                <h1>Detalles del Incentivo</h1>
+            </div>
+        </div>
+        @*Body*@
+        <div class="card-body">
+            <div class="text-center">
+                <h3>Detalles del Incentivo @Incentivo?.Descripcion</h3>
+            </div>
+            <ul>
+                <li>ID: @Incentivo?.IncentivoId</li>
+                <li>Name: @Incentivo?.Descripcion</li>
+                <li>Tipo: @Incentivo?.TiposTecnicos?.Descripcion</li>
+            </ul>
+        </div>
+        @*Footer*@
+        <div class="card-footer">            
+            <button class="btn btn-outline-secondary" type="button" @onclick="Volver">Volver</button>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    public Incentivos? Incentivo { get; set; } = new Incentivos();
+    [Parameter]
+    public int IncentivoId { get; set; }    
+
+    protected override async Task OnInitializedAsync()
+    {
+        Incentivo = await incentivoService.BuscarId(IncentivoId);
+    }   
+
+    public void Volver() => navigation.NavigateTo("/Incentivo/Index");
+
+}
