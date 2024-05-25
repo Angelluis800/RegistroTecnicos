@@ -22,6 +22,6 @@ public class Tecnicos
     public TiposTecnicos? TiposTecnicos { get; set; }
 
     [ForeignKey("Incentivos")]
-    public int IncentivoId { get; set; }   // Un Técnico Puede Contener o No un Incentivo//
+    public int? IncentivoId { get; set; }   // Un Técnico Puede Contener o No un Incentivo por eso le agregamos el "?"//
     public Incentivos? Incentivos { get; set; }
 }
