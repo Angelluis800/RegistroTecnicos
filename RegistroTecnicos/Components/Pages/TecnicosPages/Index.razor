@@ -1,7 +1,6 @@
 ﻿@page "/Tecnico/Index"
 @rendermode InteractiveServer
 @inject TecnicoService tecnicoService
-@inject TipoTecnicoService tipoTecnicoService
 @inject NavigationManager navigation
 
 <PageTitle>T&eacute;cnicos Index</PageTitle>
@@ -53,6 +52,7 @@
                         <th>Nombre</th>
                         <th>SueldoHora</th>
                         <th>Tipo</th>
+                        <th>Incentivos</th>
                         <th>Visualizar</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
@@ -62,14 +62,15 @@
                 <tbody>
                     @foreach (var tecnico in ListaTecnicos)
                     {
-                        <tr>
-                            <td class="text-center">@tecnico.TecnicoId</td>
-                            <td class="text-center">@tecnico.Nombres</td>
-                            <td class="text-center">@tecnico.SueldoHora.ToString("N2")</td>
-                            <td class="text-center">@tecnico.TiposTecnicos?.Descripcion</td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-info bi bi-eye" @onclick="()=>Visualizar(tecnico.TecnicoId)"></button></td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(tecnico.TecnicoId)"></button></td>
-                            <td class="text-center"><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(tecnico.TecnicoId)"></button></td>
+                        <tr class="text-center">
+                            <td>@tecnico.TecnicoId</td>
+                            <td>@tecnico.Nombres</td>
+                            <td>@tecnico.SueldoHora.ToString("N2")</td>
+                            <td>@tecnico.TiposTecnicos?.Descripcion</td>
+                            <td><button type="button" class="btn btn-outl" @onclick="()=>Incentivos(tecnico.TecnicoId)"></button></td>
+                            <td><button type="button" class="btn btn-outline-info bi bi-eye" @onclick="()=>Visualizar(tecnico.TecnicoId)"></button></td>
+                            <td><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(tecnico.TecnicoId)"></button></td>
+                            <td><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(tecnico.TecnicoId)"></button></td>
                         </tr>
                     }
                 </tbody>
@@ -84,14 +85,12 @@
 
 @code {
     public List<Tecnicos> ListaTecnicos = new List<Tecnicos>();
-    public List<TiposTecnicos> ListaTipos = new List<TiposTecnicos>();
     private string filtro = "";
     private string valorFiltro = "";
 
     protected override async Task OnInitializedAsync()
     {        
-        ListaTecnicos = await tecnicoService.Listar(e => true);
-        ListaTipos = await tipoTecnicoService.Listar(e => true);
+        ListaTecnicos = await tecnicoService.Listar(e => true);        
         filtro = "";
         valorFiltro = "";
     }
@@ -141,5 +140,10 @@
     public void Eliminar(int id)
     {
         navigation.NavigateTo($"/Tecnico/Eliminar/tecnicoid={id}");
+    }
+
+    public void Incentivos(int id)
+    {
+        navigation.NavigateTo($"/Tecnico/Incentivo/Index/tecnico={id}");
     }
 }

@@ -48,7 +48,7 @@
                             }
                         </InputSelect>
                         <ValidationMessage For="@(()=> Tecnico.idTipo)"></ValidationMessage>
-                    </div>
+                    </div>                   
                 </div>
 
             </div>
@@ -64,7 +64,7 @@
 @code {
 
     public Tecnicos? Tecnico { get; set; } = new Tecnicos();
-    public List<TiposTecnicos> TipoTecnico = new List<TiposTecnicos>();
+    public List<TiposTecnicos> TipoTecnico = new List<TiposTecnicos>();    
     [Parameter] // Poner esto para que en el page pueda recibirlo como parametro
     public int idTecnico { get; set; }
     List<ToastMessage> Mensajes = new List<ToastMessage>();
@@ -72,7 +72,7 @@
     protected override async Task OnInitializedAsync()
     {
         Tecnico = await tecnicoService.BuscarId(idTecnico);
-        TipoTecnico = await tipoTecnicoService.Listar(t => true);
+        TipoTecnico = await tipoTecnicoService.Listar(t => true);      
     }
 
     public async Task Editar()
