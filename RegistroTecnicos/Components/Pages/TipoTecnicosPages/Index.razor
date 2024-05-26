@@ -49,6 +49,7 @@
                     <tr>
                         <th>IdTipo</th>
                         <th>Descripci&oacute;n</th>
+                        <th>Incentivos</th>
                         <th>Visualizar</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
@@ -61,6 +62,7 @@
                         <tr class=" text-center">
                             <td>@tipo.TipoId</td>
                             <td>@tipo.Descripcion</td>
+                            <td>@MontosTotalesPorTipo.GetValueOrDefault(tipo.TipoId)</td>
                             <td><button type="button" class="btn btn-outline-info bi bi-eye" @onclick="()=>Visualizar(tipo.TipoId)"></button></td>
                             <td><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(tipo.TipoId)"></button></td>
                             <td><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(tipo.TipoId)"></button></td>
@@ -78,12 +80,14 @@
 
 @code {
     public List<TiposTecnicos> Tipo = new List<TiposTecnicos>();
+    public Dictionary<int, decimal> MontosTotalesPorTipo { get; set; } = new Dictionary<int, decimal>();
     private string filtro = "";
     private string valorFiltro = "";
 
     protected override async Task OnInitializedAsync()
     {
         Tipo = await tipoTecnicoService.Listar(e => true);
+        MontosTotalesPorTipo = await tipoTecnicoService.CalcularMontosTotalesIncentivosPorTipo();
         filtro = "";
         valorFiltro = "";
     }
