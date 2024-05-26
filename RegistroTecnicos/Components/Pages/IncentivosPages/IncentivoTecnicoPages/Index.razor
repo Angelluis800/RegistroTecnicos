@@ -94,7 +94,7 @@
     protected override async Task OnInitializedAsync()
     {
        
-        Tecnico = await tecnicoService.BuscarId(TecnicoId);        
+        Tecnico = await tecnicoService.BuscarId(TecnicoId);
         Incentivo = await incentivoService.ListarPorTecnicoId(TecnicoId);
         filtro = "";
         valorFiltro = "";
@@ -131,11 +131,11 @@
 
     public void Editar(int tecnicoid, int id)
     {
-        navigation.NavigateTo($"/Incentivo/Editar/tecnicoid={tecnicoid}/incentivoid={id}");
+        navigation.NavigateTo($"/Tecnico/Incentivo/Editar/tecnicoid={tecnicoid}/incentivoid={id}");
     }
 
     public void Eliminar(int tecnicoid, int id)
     {
-        navigation.NavigateTo($"/Incentivo/Eliminar/tecnicoid={tecnicoid}/incentivoid={id}");
+        navigation.NavigateTo($"/Tecnico/Incentivo/Eliminar/tecnicoid={tecnicoid}/incentivoid={id}");
     }
 }
