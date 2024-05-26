@@ -2,6 +2,7 @@
 using RegistroTecnicos.DAL;
 using RegistroTecnicos.Models;
 using System.Linq.Expressions;
+using System.Linq;
 
 namespace RegistroTecnicos.Services;
 
@@ -44,6 +45,27 @@ public class TecnicoService
             .ExecuteDeleteAsync();
         return tecnicos > 0;
     }
+
+    public async Task<bool> EliminarIncentivoDeTecnico(int tecnicoId, int incentivoId)
+    {
+        var tecnico = await _contexto.Tecnicos.FindAsync(tecnicoId);
+        if (tecnico == null)
+        {
+            return false;
+        }
+
+        var incentivo = await _contexto.Incentivos.FirstOrDefaultAsync(i => i.IncentivoId == incentivoId && i.TecnicoId == tecnicoId);
+
+        if (incentivo == null)
+        {
+            return false;
+        }
+
+        _contexto.Incentivos.Remove(incentivo);
+        return await _contexto.SaveChangesAsync() > 0;
+    }
+
+
     public async Task<Tecnicos?> BuscarId(int id)
     {
         return await _contexto.Tecnicos
