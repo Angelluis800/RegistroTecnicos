@@ -69,7 +69,7 @@
                             <td>@incentivo.CantidadServicios</td>
                             <td>@incentivo.Monto</td>
                             <td><button type="button" class="btn btn-outline-info bi bi-eye" @onclick="()=>Visualizar(Tecnico.TecnicoId, incentivo.IncentivoId)"></button></td>
-                            <td><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(Tecnico.TecnicoId incentivo.IncentivoId)"></button></td>
+                            <td><button type="button" class="btn btn-outline-warning bi bi-pencil-square" @onclick="()=>Editar(Tecnico.TecnicoId, incentivo.IncentivoId)"></button></td>
                             <td><button type="button" class="btn btn-outline-danger bi bi-trash" @onclick="()=>Eliminar(Tecnico.TecnicoId,incentivo.IncentivoId)"></button></td>
                         </tr>
                     }
@@ -95,7 +95,7 @@
     {
        
         Tecnico = await tecnicoService.BuscarId(TecnicoId);        
-        Incentivo = await incentivoService.Listar(i => i.TipoId == Tecnico.IncentivoId);
+        Incentivo = await incentivoService.ListarPorTecnicoId(TecnicoId);
         filtro = "";
         valorFiltro = "";
     }
