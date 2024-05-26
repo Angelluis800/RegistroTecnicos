@@ -66,4 +66,12 @@ public class IncentivoService
             .Where(criterio)
             .ToListAsync();
     }
+    public async Task<List<Incentivos>> ListarPorTecnicoId(int tecnicoId)
+    {
+        return await _contexto.Incentivos
+            .Include(e => e.TiposTecnicos)
+            .AsNoTracking()
+            .Where(i => i.TecnicoId == tecnicoId)
+            .ToListAsync();
+    }
 }
