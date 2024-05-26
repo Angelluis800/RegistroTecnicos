@@ -23,13 +23,6 @@ namespace RegistroTecnicos.Migrations
                 table: "Tecnicos",
                 newName: "IncentivoId");
 
-            migrationBuilder.AddColumn<int>(
-                name: "Cantidad",
-                table: "TiposTecnicos",
-                type: "INTEGER",
-                nullable: false,
-                defaultValue: 0);
-
             migrationBuilder.CreateTable(
                 name: "Incentivos",
                 columns: table => new
@@ -107,10 +100,6 @@ namespace RegistroTecnicos.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Tecnicos_IncentivoId",
                 table: "Tecnicos");
-
-            migrationBuilder.DropColumn(
-                name: "Cantidad",
-                table: "TiposTecnicos");
 
             migrationBuilder.RenameColumn(
                 name: "IncentivoId",
