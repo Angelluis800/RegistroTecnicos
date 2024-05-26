@@ -1,11 +1,11 @@
-﻿@page "/Tecnico/Crear"
+﻿@page "/Incentivo/Crear"
 @rendermode InteractiveServer
-@inject TecnicoService tecnicoService
-@inject TipoTecnicoService tipoTecnicoService
+@inject IncentivoService incentivoService
+@inject TipoTecnicoService TipoTecnicoService
 @inject NavigationManager navigation
 
-<PageTitle>Crear T&eacute;cnico</PageTitle>
-<EditForm Model="Tecnico" OnValidSubmit="Guardar">
+<PageTitle>Crear Incentivo</PageTitle>
+<EditForm Model="Incentivo" OnValidSubmit="Guardar">
     <Toasts class="p-3" Messages="Mensajes" Placement="ToastsPlacement.TopRight" Delay="5000" />
     <DataAnnotationsValidator />
     <div class="container">
@@ -13,41 +13,35 @@
             @*Header*@
             <div class="card-header text-white text-center">
                 <div class="bg-info rounded">
-                    <h1>Crear T&eacute;cnico</h1>
-                </div>                
+                    <h1>Crear Incentivo</h1>
+                </div>
             </div>
             @*Body*@
             <div class="card-body">
                 <div class="col-1">
-                @*Id*@
-                <label class="form-label" for="Id">Id</label>
-                <InputNumber id="Id" class="form-control" readonly @bind-Value="Tecnico.TecnicoId"></InputNumber>
+                    @*Id*@
+                    <label class="form-label" for="Id">Id</label>
+                    <InputNumber id="Id" class="form-control" redonly @bind-Value="Incentivo.IncentivoId"></InputNumber>
                 </div>
                 <div class="row">
-                    @*Nombre*@
+                    @*Descripcion*@
                     <div class="col-3">
-                        <label class="form-label" for="Nombres">Nombre</label>
-                        <InputText id="Nombres" class="form-control" @bind-Value="Tecnico.Nombres" placeholder="Ej: Jose Pichardo"></InputText>
-                        <ValidationMessage For="@(()=>Tecnico.Nombres)"></ValidationMessage>
-                    </div>
-                    @*SueldoHora*@
-                    <div class="col-3">
-                        <label class="form-label" for="SueldoHora">SueldoHora</label>
-                        <InputNumber id="SueldoHora" class="form-control" @bind-Value="Tecnico.SueldoHora"></InputNumber>
-                        <ValidationMessage For="@(()=>Tecnico.SueldoHora)"></ValidationMessage>
-                    </div>
+                        <label class="form-label" for="Descripcion">Descripci&oacute;n</label>
+                        <InputText id="Nombres" class="form-control" @bind-Value="Incentivo.Descripcion" placeholder="Ej: Diseñar Interfaz"></InputText>
+                        <ValidationMessage For="@(()=>Incentivo.Descripcion)"></ValidationMessage>
+                    </div>                      
                     @*Tipos*@
                     <div class=" col-4">
                         <label class="form-label" for="Tipos">Tipo</label>
-                        <InputSelect id="Tipos" class="form-select" @bind-Value="Tecnico.idTipo">
+                        <InputSelect id="Tipos" class="form-select" @bind-Value="Incentivo.TipoId">
                             <option value="0">Selecciona un Tipo</option>
                             @foreach (var tipotecnico in TipoTecnico)
                             {
                                 <option value="@tipotecnico.TipoId">@tipotecnico.Descripcion</option>
                             }
                         </InputSelect>
-                        <ValidationMessage For="@(()=> Tecnico.idTipo)"></ValidationMessage>
-                    </div>                    
+                        <ValidationMessage For="@(()=> Incentivo.TipoId)"></ValidationMessage>
+                    </div>
                 </div>
             </div>
             @*Footer*@
@@ -61,43 +55,46 @@
 
 @code {
 
-    public Tecnicos? Tecnico { get; set; } = new Tecnicos();
+    public Incentivos? Incentivo { get; set; } = new Incentivos();
     public List<TiposTecnicos> TipoTecnico = new List<TiposTecnicos>();
     List<ToastMessage> Mensajes = new List<ToastMessage>();
 
     protected override async Task OnInitializedAsync()
     {
-        TipoTecnico = await tipoTecnicoService.Listar(t => true);
+        TipoTecnico = await TipoTecnicoService.Listar(t => true);
+        Incentivo.Fecha = DateTime.Now.ToString("dd/MM/yyyy"); // Fecha predeterminada
+        Incentivo.Monto = 0.1M; // Monto predeterminado La M Indica que el monto es de tipo Decimal
+        Incentivo.CantidadServicios = 1; // Cantidad de servicios predeterminada
     }
 
     public async Task Guardar()
     {
         if (!await Validar())
         {
-            var nuevo = await tecnicoService.Guardar(Tecnico);
+            var nuevo = await incentivoService.Guardar(Incentivo);
             if (nuevo)
             {
-                MostrarMensaje(ToastType.Success, $"El técnico {Tecnico.Nombres} ha sido creado correctamente");
-                Tecnico = new Tecnicos();
+                MostrarMensaje(ToastType.Success, $"La Meta {Incentivo.Descripcion} ha Sido Creada Correctamente");
+                Incentivo = new Incentivos();
             }
             else
             {
-                MostrarMensaje(ToastType.Danger, "El técnico no se ha podido crear correctamente");
+                MostrarMensaje(ToastType.Danger, "La Meta no se ha Podido Crear Correctamente");
             }
         }
         else
         {
-            MostrarMensaje(ToastType.Warning, "Ya existe un técnico con este nombre");
+            MostrarMensaje(ToastType.Warning, "Ya Existe una Meta con esta Descripción");
         }
     }
 
     public async Task<bool> Validar()
     {
-        var existe = await tecnicoService.Existe(Tecnico.TecnicoId, Tecnico.Nombres);
+        var existe = await incentivoService.Existe(Incentivo.IncentivoId, Incentivo.Descripcion);
         return existe;
     }
 
-    public void Volver() => navigation.NavigateTo("/Tecnico/Index");
+    public void Volver() => navigation.NavigateTo("/Incentivo/Index");
 
     private void MostrarMensaje(ToastType toastType, string message)
     {
@@ -113,3 +110,4 @@
             Message = message,
         };
 }
+

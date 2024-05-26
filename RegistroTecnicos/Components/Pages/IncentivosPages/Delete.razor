@@ -1,29 +1,27 @@
-﻿@page "/Tecnico/Eliminar/tecnicoid={idTecnico:int}"
+﻿@page "/Incentivo/Eliminar/incentivoid={IncentivoId:int}"
 @rendermode InteractiveServer
-@inject TecnicoService tecnicoService
-@inject TipoTecnicoService tipoTecnicoService
+@inject IncentivoService incentivoService
 @inject NavigationManager navigation
 
-<PageTitle>Eliminar T&eacute;cnico</PageTitle>
+<PageTitle>Eliminar Incentivo</PageTitle>
 <Toasts class="p-3" Messages="Mensajes" Placement="ToastsPlacement.TopRight" Delay="5000" />
 <div class="container">
     <div class="card shadow-lg">
         @*Header*@
         <div class="card-header text-white text-center">
             <div class="bg-info rounded">
-                <h1>Eliminar T&eacute;cnico</h1>
-            </div           
+                <h1>Eliminar Incentivo</h1>
+            </div>           
         </div>
         @*Body*@
         <div class="card-body">
              <div class="text-danger text-center">
-                <h3>Desea Eliminar el T&eacute;cnico @Tecnico.Nombres?</h3>
+                <h3>Desea Eliminar el Incentivo: @Incentivo?.Descripcion ?</h3>
             </div>
             <ul>
-                <li>ID: @Tecnico.TecnicoId</li>              
-                <li>Name: @Tecnico.Nombres</li>
-                <li>Sueldo: @Tecnico.SueldoHora.ToString("N2")</li>   
-                <li>Tipo: @Tecnico?.TiposTecnicos?.Descripcion</li>
+                <li>ID: @Incentivo?.IncentivoId</li>              
+                <li>Name: @Incentivo?.Descripcion</li>
+                <li>Tipo: @Incentivo?.TiposTecnicos?.Descripcion</li>
             </ul>
         </div>
         @*Footer*@
@@ -36,23 +34,23 @@
    
 @code {
 
-    public Tecnicos? Tecnico { get; set; } = new Tecnicos();
-    [Parameter] // Poner esto para que en el page pueda recibirlo como paramétro
-    public int idTecnico { get; set; }
+    public Incentivos? Incentivo { get; set; } = new Incentivos();
+    [Parameter]
+    public int IncentivoId { get; set; } 
     List<ToastMessage> Mensajes = new List<ToastMessage>();
 
     protected override async Task OnInitializedAsync()
     {
-        Tecnico = await tecnicoService.BuscarId(idTecnico);
+        Incentivo = await incentivoService.BuscarId(IncentivoId);
     }
 
     public async Task Eliminar()
     {
-        await tecnicoService.Eliminar(idTecnico);
-        MostrarMensaje(ToastType.Success, "Técnico Eliminado Correctamente");
+        await incentivoService.Eliminar(IncentivoId);
+        MostrarMensaje(ToastType.Success, "Incentivo Eliminado Correctamente");
     }
 
-    public void Volver() => navigation.NavigateTo("/Tecnico/Index");
+    public void Volver() => navigation.NavigateTo("/Incentivo/Index");
 
     private void MostrarMensaje(ToastType toastType, string message)
     {

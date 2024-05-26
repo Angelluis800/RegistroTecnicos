@@ -19,6 +19,9 @@ public class Tecnicos
     [ForeignKey("TiposTecnicos")]
     [Range(1, 50, ErrorMessage = "Seleccione un Tipo")]
     public int idTipo { get; set; }    
-
     public TiposTecnicos? TiposTecnicos { get; set; }
+
+    [ForeignKey("Incentivos")]
+    public int? IncentivoId { get; set; }   // Un Técnico Puede Contener o No un Incentivo por eso le agregamos el "?"//
+    public Incentivos? Incentivos { get; set; }   
 }
