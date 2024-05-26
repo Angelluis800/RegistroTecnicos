@@ -92,10 +92,22 @@
     {
         if (!await Validar())
         {
-            var nuevo = await incentivoService.Guardar(Incentivo);
+            // Crear una nueva instancia de Incentivos
+            var nuevoIncentivo = new Incentivos
+                {
+                    Descripcion = Incentivo.Descripcion,
+                    TipoId = Incentivo.TipoId,
+                    CantidadServicios = Incentivo.CantidadServicios,
+                    Monto = Incentivo.Monto,
+                    Fecha = Incentivo.Fecha,                    
+                    TecnicoId = Incentivo.TecnicoId
+                };
+
+            var nuevo = await incentivoService.Guardar(nuevoIncentivo);
+
             if (nuevo)
             {
-                MostrarMensaje(ToastType.Success, $"La Meta {Incentivo.Descripcion} ha sido Añadida Correctamente");
+                MostrarMensaje(ToastType.Success, $"La Meta {nuevoIncentivo.Descripcion} ha sido Añadida Correctamente");
                 Incentivo = new Incentivos();
             }
             else
