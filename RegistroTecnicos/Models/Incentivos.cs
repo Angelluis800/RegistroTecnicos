@@ -28,4 +28,9 @@ public class Incentivos
     [Range(1, 50, ErrorMessage = "Seleccione un Tipo")]
     public int TipoId { get; set; }
     public TiposTecnicos? TiposTecnicos { get; set; }
+
+    [ForeignKey("Tecnicos")]
+    public int TecnicoId { get; set; }
+
+    public Tecnicos? Tecnico { get; set; }
 }
