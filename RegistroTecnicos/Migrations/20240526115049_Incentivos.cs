@@ -18,13 +18,14 @@ namespace RegistroTecnicos.Migrations
                 name: "IX_Tecnicos_TiposTecnicosTipoId",
                 table: "Tecnicos");
 
-            migrationBuilder.DropColumn(
+            migrationBuilder.RenameColumn(
                 name: "TiposTecnicosTipoId",
-                table: "Tecnicos");
+                table: "Tecnicos",
+                newName: "IncentivoId");
 
             migrationBuilder.AddColumn<int>(
-                name: "IncentivoId",
-                table: "Tecnicos",
+                name: "Cantidad",
+                table: "TiposTecnicos",
                 type: "INTEGER",
                 nullable: false,
                 defaultValue: 0);
@@ -39,7 +40,8 @@ namespace RegistroTecnicos.Migrations
                     Fecha = table.Column<string>(type: "TEXT", nullable: false),
                     CantidadServicios = table.Column<int>(type: "INTEGER", nullable: false),
                     Monto = table.Column<decimal>(type: "TEXT", nullable: false),
-                    TipoId = table.Column<int>(type: "INTEGER", nullable: false)
+                    TipoId = table.Column<int>(type: "INTEGER", nullable: false),
+                    TecnicoId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,7 +62,8 @@ namespace RegistroTecnicos.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Tecnicos_IncentivoId",
                 table: "Tecnicos",
-                column: "IncentivoId");
+                column: "IncentivoId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Incentivos_TipoId",
@@ -72,8 +75,7 @@ namespace RegistroTecnicos.Migrations
                 table: "Tecnicos",
                 column: "IncentivoId",
                 principalTable: "Incentivos",
-                principalColumn: "IncentivoId",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "IncentivoId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Tecnicos_TiposTecnicos_idTipo",
@@ -107,14 +109,13 @@ namespace RegistroTecnicos.Migrations
                 table: "Tecnicos");
 
             migrationBuilder.DropColumn(
-                name: "IncentivoId",
-                table: "Tecnicos");
+                name: "Cantidad",
+                table: "TiposTecnicos");
 
-            migrationBuilder.AddColumn<int>(
-                name: "TiposTecnicosTipoId",
+            migrationBuilder.RenameColumn(
+                name: "IncentivoId",
                 table: "Tecnicos",
-                type: "INTEGER",
-                nullable: true);
+                newName: "TiposTecnicosTipoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tecnicos_TiposTecnicosTipoId",
