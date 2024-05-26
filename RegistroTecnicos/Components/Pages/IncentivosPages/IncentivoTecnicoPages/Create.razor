@@ -1,5 +1,4 @@
 ﻿@page "/Tecnico/Incentivo/Crear/tecnicoid={TecnicoId:int}"
-@using Microsoft.EntityFrameworkCore
 @rendermode InteractiveServer
 @inject IncentivoService incentivoService
 @inject TecnicoService tecnicoService
@@ -72,20 +71,21 @@
 
     public List<Incentivos?> Incentivos = new List<Incentivos>();
     public Incentivos Incentivo { get; set; } = new Incentivos();
+    public Tecnicos Tecnico { get; set; } = new Tecnicos();
     [Parameter]
     public int TecnicoId { get; set; }
     List<ToastMessage> Mensajes = new List<ToastMessage>();
 
     protected override async Task OnInitializedAsync()
     {
-        var tecnico = await tecnicoService.BuscarId(TecnicoId);
+        Tecnico = await tecnicoService.BuscarId(TecnicoId);
         // Cargar los incentivos disponibles para el tipo de técnico
-        Incentivos = await incentivoService.Listar(i => i.TipoId == tecnico.idTipo);
+        Incentivos = await incentivoService.Listar(i => i.TipoId == Tecnico.idTipo);
 
         // Asignar el ID del técnico al incentivo
         Incentivo.TecnicoId = TecnicoId;
-        Incentivo.Tecnico = tecnico;
-        Incentivo.TipoId = tecnico.idTipo;
+        Incentivo.Tecnico = Tecnico;
+        Incentivo.TipoId = Tecnico.idTipo;
     }
 
     public async Task Guardar()
